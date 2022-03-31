@@ -1,0 +1,68 @@
+[08-Feb-2018 18:39:19] PHP Fatal error:  Call to undefined function  is_home() in /home3/jwrr/public_html/rachelarmington.com/wp-content/themes/rachel1/content.php on line 3
+[08-Feb-2018 18:39:20] PHP Fatal error:  Call to undefined function  is_home() in /home3/jwrr/public_html/rachelarmington.com/wp-content/themes/rachel1/content.php on line 3
+[15-Sep-2020 03:29:45 UTC] PHP Warning:  PHP Startup: imagick: Unable to initialize module
+Module compiled with module API=20131226
+PHP    compiled with module API=20160303
+These options need to match
+ in Unknown on line 0
+[15-Sep-2020 03:29:45 UTC] PHP Warning:  PHP Startup: SourceGuardian: Unable to initialize module
+Module compiled with module API=20131226
+PHP    compiled with module API=20160303
+These options need to match
+ in Unknown on line 0
+[14-Sep-2020 22:29:45 America/Chicago] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/jwrr/public_html/rachelarmington.com/wp-content/themes/rachel1/index.php:3
+Stack trace:
+#0 {main}
+  thrown in /home3/jwrr/public_html/rachelarmington.com/wp-content/themes/rachel1/index.php on line 3
+[15-Nov-2020 01:18:02 UTC] PHP Warning:  PHP Startup: imagick: Unable to initialize module
+Module compiled with module API=20131226
+PHP    compiled with module API=20160303
+These options need to match
+ in Unknown on line 0
+[15-Nov-2020 01:18:02 UTC] PHP Warning:  PHP Startup: SourceGuardian: Unable to initialize module
+Module compiled with module API=20131226
+PHP    compiled with module API=20160303
+These options need to match
+ in Unknown on line 0
+[14-Nov-2020 19:18:02 America/Chicago] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/jwrr/public_html/rachelarmington.com/wp-content/themes/rachel1/index.php:3
+Stack trace:
+#0 {main}
+  thrown in /home3/jwrr/public_html/rachelarmington.com/wp-content/themes/rachel1/index.php on line 3
+[15-Nov-2020 02:20:08 UTC] PHP Warning:  PHP Startup: imagick: Unable to initialize module
+Module compiled with module API=20131226
+PHP    compiled with module API=20160303
+These options need to match
+ in Unknown on line 0
+[15-Nov-2020 02:20:08 UTC] PHP Warning:  PHP Startup: SourceGuardian: Unable to initialize module
+Module compiled with module API=20131226
+PHP    compiled with module API=20160303
+These options need to match
+ in Unknown on line 0
+[14-Nov-2020 20:20:08 America/Chicago] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/jwrr/public_html/rachelarmington.com/wp-content/themes/rachel1/index.php:3
+Stack trace:
+#0 {main}
+  thrown in /home3/jwrr/public_html/rachelarmington.com/wp-content/themes/rachel1/index.php on line 3
+[14-Jan-2021 23:51:40 America/Chicago] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/jwrr/public_html/rachelarmington.com/wp-content/themes/rachel1/index.php:3
+Stack trace:
+#0 {main}
+  thrown in /home3/jwrr/public_html/rachelarmington.com/wp-content/themes/rachel1/index.php on line 3
+[16-Mar-2021 22:26:47 America/Chicago] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/jwrr/public_html/rachelarmington.com/wp-content/themes/rachel1/index.php:3
+Stack trace:
+#0 {main}
+  thrown in /home3/jwrr/public_html/rachelarmington.com/wp-content/themes/rachel1/index.php on line 3
+[25-May-2021 06:07:04 America/Chicago] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/jwrr/public_html/rachelarmington.com/wp-content/themes/rachel1/index.php:3
+Stack trace:
+#0 {main}
+  thrown in /home3/jwrr/public_html/rachelarmington.com/wp-content/themes/rachel1/index.php on line 3
+[25-May-2021 06:07:05 America/Chicago] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/jwrr/public_html/rachelarmington.com/wp-content/themes/rachel1/index.php:3
+Stack trace:
+#0 {main}
+  thrown in /home3/jwrr/public_html/rachelarmington.com/wp-content/themes/rachel1/index.php on line 3
+[18-Jul-2021 18:27:25 America/Chicago] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/jwrr/public_html/rachelarmington.com/wp-content/themes/rachel1/index.php:3
+Stack trace:
+#0 {main}
+  thrown in /home3/jwrr/public_html/rachelarmington.com/wp-content/themes/rachel1/index.php on line 3
+[17-Jan-2022 18:10:56 America/Chicago] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home3/jwrr/public_html/rachelarmington.com/wp-content/themes/rachel1/index.php:3
+Stack trace:
+#0 {main}
+  thrown in /home3/jwrr/public_html/rachelarmington.com/wp-content/themes/rachel1/index.php on line 3

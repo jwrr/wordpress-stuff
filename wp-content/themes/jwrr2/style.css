@@ -1,0 +1,80 @@
+/*
+ * Theme Name: rachel1
+ * Author: Rachel Armington
+ * Description: Rachel's first theme
+ * Version: 0.0.1
+ * Tags: rachel
+ * */
+
+body {padding:0 0 0 0; margin:0 0 0 0;}
+
+a:link    {color:#777777; text-decoration:underline;}
+a:visited {color:#999999; text-decoration:underline;}
+
+
+#theme_outer {position:relative;width:100%;max-width:1200px;margin: 0 auto 0 auto;padding:0 0 0 0;font-family:Estrangelo Edessa;color:#333333;} /* 660099;} */
+
+#jwrr_social_top {position:absolute;left:70px;height:70px;width:100%;margin: 0 0 0 0;padding 0 0 0 0;}
+#jwrr_social_top > ul {margin:0 0 0 0;padding: 0 0 0 0;list-style-type:none;position:fixed;width:100%;}
+#jwrr_social_top > ul > li {display: inline;}
+#jwrr_social_left {position:absolute;width:70px;margin: 0 0 0 0;padding 0 0 0 0;}
+#jwrr_social_left > ul {margin:0 0 0 0;padding: 0 0 0 0;list-style-type:none;position:fixed;width:70px;}
+#jwrr_social_left > ul > li {display: inline;}
+#jwrr_social_h {margin:0 0 0 0; padding: 0 0 20px 10px;position:fixed;}
+
+#jwrr_banner {padding:44px 0 0 0; width:100%;}
+#jwrr_nobanner {padding:0 0 0 0; width:100%;height:75px;}
+
+#theme_breadcrumbs {margin:0 0 0 0;padding:0 0 0 0;font-size:1.2em;}
+#theme_breadcrumbs > li {display:inline;}
+#theme_h1 {text-align:center;padding:0 0 0.3em 0;margin:0 0 0 0;}
+
+#theme_main {position:absolute;left:70px;margin: 0 0 0 0;padding:0 0 0 0;width:100%}
+.ddmb {position:relative;}
+.ddmb > li {background-color:rgba(51,102,153,0.5);font-size:1.5em;}
+.ddmb > li > ul > li {font-size:1.5em;padding:0.5em 0 0.5em 0.5em;margin:0.5em 0 0.5em 0;}
+
+#theme_nav {
+ //position:absolute;top:0;
+ float:left;
+ text-align:left;
+ width:15%;
+ padding:0 1% 1em 1%;
+ border:solid;border-width:1px;border-radius:15px;
+}
+#theme_nav ul {padding-left:0em;}
+#theme_nav li {font-size:1.0em;list-style: none;padding:0.5em 0 0.5em 1em;}
+
+li.theme_tags > ul {display:none;}
+li.theme_tags:hover > ul {display:block;}
+li.theme_tags > .theme_hidden {font-weight:bold;}
+li.theme_tags:hover > .theme_hidden {display:none;}
+
+#theme_content {float:right;width:82%;margin:0 0 0 0;padding:0 0 0 0;}
+.theme_the_post {background-color:#fff;margin:0 0 1em 0;padding:0 1% 0em 1%;border:solid;border-width:1px;border-radius:15px;}
+.theme_the_title {font-size:2.1em;margin:0.2em 0 0.2em 0.4em; padding:0 0 0 0;}
+h2.theme_the_title {font-size:2.1em;margin:0em 0 0.2em 0.4em; padding:0 0 0 0;}
+.theme_the_date {margin:0 0 0 0.5em; padding:0 0 0 0.5em;}
+.theme_the_content > p {font-size:1.7em;padding: 0 0.5em 0 0.5em;margin:0.5em 0 0 0;};
+.theme_the_content > p > img {padding: 0em 0.5em 3.5em 0.5em;};
+.theme_the_excerpt {float:right; font-size:2em; padding: 0 0 0 0; margin:0 0 0 0}
+.theme_the_excerpt > p {font-size:1.5em; padding: 0 0 0 0; margin:0 0 0 0}
+.theme_the_thumbnail img  {display:inline;padding:0 0 0 0;margin: 0.5em 1em 0.5em 0.2em;border-radius:15px;}
+.theme_post_excerpt {font-size:2.5em!important;}
+.aligncenter { display: block; margin-left: auto; margin-right: auto; max-width:80%;}
+.alignleft { display: block; float: left; padding:0.5em 0.5em 0em 0;}
+.alignright { display: block; float: right; padding:0.5em 0.5em 0em 0;}
+.alignnone {width:100%;margin:0.5em 0 0 0; border:0 0 0 0;}
+.size-medium {width:40%;}
+// ul.jwrr_post_tags {margin:0.4em 0 0.4em 0.3em;padding:0 0 0 0;}
+// ul.jwrr_post_tags li {display:inline;font-size:1.1em;list-style: none;padding:0 1.5% 0 1.5%}
+div.jwrr_youtube {position:relative;width:95%;margin:1.5em auto 1em auto;}
+.jwrr_youtube > img {display:block;width:100%;height:auto;}
+.jwrr_youtube > iframe {position:absolute;top:0;left:0;width:100%;height:100%;}
+#theme_copyright {text-align:center;color:#444444;padding:0 0 1em 0;}
+
+p.indented {
+   text-indent:50px;
+}
+
+
