@@ -1,8 +1,10 @@
 <?php
 require_once "config.php";
+
 get_header();
+
 if (wp_is_mobile()) {
- echo "<style  type='text/css'>
+  echo "<style  type='text/css'>
 #theme_content {width:99%;float:none;padding:0 0 0 0; margin:0 0 0 0;}
 #theme_nav {width:99%;float:none;padding:0 0 0 0; margin:0 0 0 0;}
 .theme_the_title {font-size:1.3em;margin:0.5em 0 0 0em;}
@@ -15,36 +17,33 @@ if (wp_is_mobile()) {
 ";
 }
 
+echo "<style  type='text/css'>
+#jwrr_banner {margin: 0 0 1em 0;}
+#theme_content {width:100%;float:none;}
+</style>
+";
+
 echo "<div id='theme_outer'>\n";
 echo do_shortcode( '[jwrr_button_bar]' );
 echo " <div id='theme_main'>\n";
-echo do_shortcode( '[jwrr-ddmb]' );
-echo do_shortcode( '[jwrr-random-banner]' );
-jwrr_breadcrumbs();
-get_h1();
   
 if (is_front_page()) {  
-  get_sidebar();
-  $path = "art/*/small";
-  $images = glob($path . "/*.jpg");
-  
-  echo "<div id=\"theme_inner\">";
-  foreach($images as $image)
-  {
-    $b = basename($image);
-    echo "<a href='/art?img=/$image'><img src=\"/$image\" class=\"small\"></a>\n";
-  }
-  echo '   <div style="clear:both"></div>';
-  echo '   Please note that all copyright and reproduction rights remain with the artist.';
-  echo '  </div>';
+//   echo do_shortcode( '[jwrr-ddmb]' );
+  echo do_shortcode( '[jwrr_random_banner]' );
+//   jwrr_breadcrumbs();
+//  get_h1();
+//   get_sidebar();
+  echo do_shortcode('[jwrr_search_form]');
+  search_and_show_images();
 
 } else {
   get_the_posts();
-  get_sidebar();
 }
 
 echo " </div> <!-- theme_main -->\n";
-echo do_shortcode( '[jwrr-social]' );
+// if (is_front_page()) {
+//   echo do_shortcode( '[jwrr-social]' );
+// }
 echo "</div> <!-- theme_outer  -->\n";
 
 get_footer();

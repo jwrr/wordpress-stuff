@@ -103,3 +103,38 @@ function remove_admin_bar() {
 }
 
 
+function get_post_search_string($search_string='', $search_key = 'artsearch')
+{
+  if ($search_string=='' && $_POST['artsearch']) {
+    $search_string = htmlspecialchars($_POST['artsearch']);
+    $search_string = str_replace('/', '\/', $search_string);
+  }
+  return $search_string;
+}
+
+function search_and_show_images($path= "art/*/small/*jpg", $search_string="")
+{
+  
+  $search_string = get_post_search_string();
+  
+  // print "search='$search_string'";
+  
+  $images = glob($path);
+  $search_words = explode(" ", $search_string);
+  foreach ($search_words as $search_word) {
+    $images = preg_grep("/^.*$search_word.*/i", $images);    
+  }
+  
+  shuffle($images);
+  echo "<div id=\"theme_inner\">";
+  foreach($images as $image)
+  {
+    $b = basename($image);
+    echo "<a href='/show?img=/$image'><img src=\"/$image\" class=\"small\"></a>\n";
+  }
+  echo '   <div style="clear:both"></div>';
+  echo '   Please note that all copyright and reproduction rights remain with the artist.';
+  echo '  </div>';
+}
+
+

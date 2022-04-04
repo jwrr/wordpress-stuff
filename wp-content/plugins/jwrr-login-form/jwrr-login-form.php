@@ -45,14 +45,14 @@ $html .= <<<HEREDOC2
     <div class="user-name-wrap">
       <label for="user_login">Username or Email Address</label>
       <div class="wp-usr">
-        <input type="text" name="log" id="user_login" class="input" value="rachel" size="20" autocapitalize="off" />
+        <input type="text" name="log" id="user_login" class="input" value="" size="30" autocapitalize="off" />
       </div>
     </div>
     
     <div class="user-pass-wrap">
       <label for="user_pass">Password</label><br>
       <div class="wp-pwd">
-        <input type="password" name="pwd" id="user_pass" class="input password-input" value="" size="20" />
+        <input type="password" name="pwd" id="user_pass" class="input password-input" value="" size="30" />
       </div>
     </div>
     

@@ -1,7 +1,7 @@
 <?php
 /*
  Plugin Name: JWRR Random Banner
- Plugin URI: http://jwrr.com/wp/plugins/jwrr_youtube
+ Plugin URI: http://jwrr.com/wp/plugins/jwrr-random-banner
  Description: a plugin to display images selected randomly from uploaded banners.
  Version: 0.1
  Author: jwrr
@@ -9,12 +9,11 @@
  License: GPL3
 */
 
-add_shortcode('jwrr-random-banner', 'jwrr_random_banner');
+add_shortcode('jwrr_random_banner', 'jwrr_random_banner');
 
 function jwrr_random_banner()
 {
-	$banner_suffix = "-banner-800x316.jpg";
-	$indent = str_repeat(' ', 2);
+	$banner_suffix = "-banner.jpg";
 	$enable_echo = False;
 	$slug = get_slug();
 	if ($slug == '') $slug = 'home';
@@ -25,15 +24,14 @@ function jwrr_random_banner()
 		$slug = 'home';
 		$banner_path = "$upload_path/$slug$banner_suffix";
 	}	
-	$html = "\n$indent<!-- plugin: jwrr_random_banner -->\n";
+	$html = "\n<!-- plugin: jwrr_random_banner -->\n";
 	if (file_exists($banner_path)) {
 		$banner_glob_array = glob("$upload_path/$slug$banner_suffix");
 		$cnt = count($banner_glob_array);
 		$upload_url = $uploads['baseurl'];
 		$i = rand(0,$cnt-1);
 		$banner_url = $upload_url . '/' . basename($banner_glob_array[$i]);
-		$html .= "$indent<div></div>\n";
-		$html .= "$indent<img id=\"jwrr_banner\" src=\"$banner_url\" alt=\"banner\">\n\n";
+		$html .= "<div id=\"jwrr_banner\"><img src=\"$banner_url\" alt=\"banner\"></div>\n\n";
 	}
 	if ($enable_echo) echo $html;
 	return $html;
@@ -52,11 +50,5 @@ function get_slug()
 }
 }
 
-
-// function register_shortcodes(){
-// add_shortcode('youtube', 'jwrr_youtube_function');
-//}
-
-// add_action( 'init', 'register_shortcodes');
 
 ?>

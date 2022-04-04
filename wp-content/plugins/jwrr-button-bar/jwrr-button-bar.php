@@ -20,14 +20,15 @@ function jwrr_button_bar($atts = array(), $content = null, $tag = '')
     $style .=
 '
 <style type="text/css">
-#theme_main {top:2.7em;}
-.jwrr_button_bar {position:absolute; left:70px; width:100%; height:2.7em; background-color:black; color:white; max-width:100%;}
-.jwrr_button_left {float:left; font-size:1.8em;border-radius:10px;padding:0em 1em 0.1em 1em;margin: 3px 0 3px 0.2em;background-color:green;color:oldlace;text-decoration: none;}
-a.jwrr_button_left:link {color: oldlace; text-decoration: none;}
-a.jwrr_button_left:visited {color: gray; text-decoration: none;}
-.jwrr_button_right {float:right; font-size:1.8em;border-radius:10px;padding:0em 1em 0.1em 1em;margin: 3px 0.2em 0 3px;background-color:green;color:oldlace;text-decoration: none;}
-a.jwrr_button_right:link {color: oldlace; text-decoration: none;}
-a.jwrr_button_right:visited {color: gray; text-decoration: none;}
+#theme_main {position:static;}
+.jwrr_button_bar {position:static; width:100%; height:2.7em; background-color:black; color:white; max-width:100%; text-align: center;}
+.jwrr_button_bar span {marginn:0; padding:0; font-size:1.6em; }
+.jwrr_button_left {float:left; font-size:1.8em;border-radius:10px;padding:0em 1em 0.1em 1em;margin: 3px 0 3px 0.2em;background-color:green;color:white;text-decoration: none;}
+a.jwrr_button_left:link {color: white; text-decoration: none;}
+a.jwrr_button_left:visited {color: white; text-decoration: none;}
+.jwrr_button_right {float:right; font-size:1.8em;border-radius:10px;padding:0em 1em 0.1em 1em;margin: 3px 0.2em 0 3px;background-color:green;color:white;text-decoration: none;}
+a.jwrr_button_right:link {color: white; text-decoration: none;}
+a.jwrr_button_right:visited {color: white; text-decoration: none;}
 </style>
 ';
   }
@@ -61,6 +62,7 @@ $style
 <div class="jwrr_button_bar">
    <a class="jwrr_button_left" href="/">Home</a>
    $buttons
+   <span>CATARTISTS.ORG</span>
 </div>
 <!-- end jwrr_button_bar -->
 
