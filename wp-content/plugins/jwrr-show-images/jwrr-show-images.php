@@ -15,8 +15,9 @@ add_shortcode('jwrr_show_images', 'jwrr_show_images');
 
   function jwrr_copyright($year, $artist, $type="")
   {
+    $fullname = jwrr_get_fullname($artist);
     $html = <<<HEREDOC
-    <div class="jwrr_copyright">&copy 2022 $artist. All copyright and reproduction rights remain with the artist.</div>
+    <div class="jwrr_copyright">&copy 2022 $fullname. All copyright and reproduction rights remain with the artist.</div>
 HEREDOC;
   return $html;
   }
@@ -35,7 +36,8 @@ HEREDOC;
 HEREDOC;
   return $html;
   }
-  
+
+
   function jwrr_get_art_by_artist($artist, $copyright)
   {
     $doc_root = $_SERVER["DOCUMENT_ROOT"];
@@ -43,7 +45,7 @@ HEREDOC;
     $images = glob($path);
 
     $html = "  <div class='gallery'>";
-    
+
     foreach($images as $image)
     {
       $b = "/art/$artist/small/" . basename($image);
@@ -64,6 +66,8 @@ function jwrr_show_images()
   $chunks = explode('/', $img);
   $artist1 = $chunks[2];
 
+  $artist_fullname = jwrr_get_fullname($artist1);
+
   $artist = preg_replace("/[^\w\d]/", ' ', $artist1);
 
   $buy_platform = "Zazzle";
@@ -82,7 +86,7 @@ function jwrr_show_images()
   if ($enable_style) {
 
     $html .= <<<HEREDOC_STYLE
-  
+
   <style>
     body {background-color: white;}
     div.jwrr_show_images_main {max-width:1024px; margin: 0 auto;}
@@ -97,20 +101,20 @@ function jwrr_show_images()
   </style>
 HEREDOC_STYLE;
   }
-  
+
   $html .= <<<HEREDOC_DIV
   <div class="jwrr_show_images_main">
     $button_bar
-    <h1>Artwork by $artist</h1>
+    <h1>Artwork by $artist_fullname</h1>
     $buybar
     $copyright
     <img src='$img'>
     <hr>
-    
+
     <h2>Here is more of my art</h2>
-    
+
     $more_art_by_artist
-    
+
   </div>
 
 <!-- end jwrr_show_images -->

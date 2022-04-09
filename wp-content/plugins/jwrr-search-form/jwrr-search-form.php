@@ -40,7 +40,7 @@ HEREDOC1;
   <div class="jwrr_search_form">
   <form action="$search_handler" method="post">
     <input class="jwrr_search_form_file" type="search" placeholder="Search" $value name="artsearch" id="artsearch">
-    <input class="jwrr_search_form_submit" type="submit" value="Search Image" name="submit">
+    <input class="jwrr_search_form_submit" type="submit" value="Art Search" name="submit">
   </form>
   </div>
 

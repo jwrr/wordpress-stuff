@@ -29,7 +29,10 @@ echo " <div id='theme_main'>\n";
   
 if (is_front_page()) {  
 //   echo do_shortcode( '[jwrr-ddmb]' );
-  echo do_shortcode( '[jwrr_random_banner]' );
+  $search_string = get_post_search_string();
+  if ($search_string == "") {
+    echo do_shortcode( '[jwrr_random_banner]' );
+  }
 //   jwrr_breadcrumbs();
 //  get_h1();
 //   get_sidebar();
