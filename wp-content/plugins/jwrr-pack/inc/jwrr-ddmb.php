@@ -1,7 +1,7 @@
 <?php
 /*
- Plugin Name: JWRR Dropdown Menubar (DDMB)
- Plugin URI: http://jwrr.com/wp/plugins/jwrr_ddmb
+ Name: JWRR Dropdown Menubar (DDMB)
+ URI: http://jwrr.com/wp/plugins/jwrr_ddmb
  Description: a plugin to add a dropdown menu bar.
  Version: 0.1
  Author: jwrr
@@ -208,4 +208,3 @@ HEREDOC;
 return $html;
 }
 
-?>

@@ -1,7 +1,7 @@
 <?php
 /*
- Plugin Name: JWRR Search Form
- Plugin URI: https://github.com/wordpress-stuff/wp-content/plugins/jwrr-search-form
+ Name: JWRR Search Form
+ URI: https://github.com/wordpress-stuff/wp-content/plugins/jwrr-search-form
  Description: a plugin to add an search form to a page
  Version: 0.1
  Author: jwrr
@@ -53,5 +53,4 @@ HEREDOC2;
 
   return $html;
 }
-
 

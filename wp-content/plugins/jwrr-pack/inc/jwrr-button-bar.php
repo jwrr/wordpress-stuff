@@ -1,7 +1,7 @@
 <?php
 /*
- Plugin Name: JWRR Button Bar
- Plugin URI: https://github.com/wordpress-stuff/wp-content/plugins/jwrr_button_bar
+ Name: JWRR Button Bar
+ URI: https://github.com/wordpress-stuff/wp-content/plugins/jwrr_button_bar
  Description: a plugin to add a button bar at the top of the page
  Version: 0.1
  Author: jwrr
@@ -69,5 +69,4 @@ $style
 HEREDOC;
 	return $html;
 }
-
 

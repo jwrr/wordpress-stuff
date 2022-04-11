@@ -1,7 +1,7 @@
 <?php
 /*
- Plugin Name: JWRR Upload
- Plugin URI: https://github.com/wordpress-stuff/wp-content/plugins/jwrr-upload-form
+ Name: JWRR Upload
+ URI: https://github.com/wordpress-stuff/wp-content/plugins/jwrr-upload-form
  Description: a plugin to add an upload form to a page
  Version: 0.1
  Author: jwrr
@@ -50,7 +50,7 @@ HEREDOC1;
     <div style="text-align:left;margin-left:12%;font-size:1.5em;">
       <label for="title">Title</label><br>
       <input class="jwrr_upload_form_title" type="text" name="title" id="title" cols="60" style="font-size:1.3em;"><br>
-      
+
       <label for="copyright">Choose a Copyright Notice:</label><br>
       <select class="jwrr_upload_form_select" id="copyright" name="copyright" style="font-size:1em;">
         <option value="all" selected>All rights reserved</option>
@@ -63,13 +63,13 @@ HEREDOC1;
         <option value="BY">BY Needs Attribution</option>
         <option value="CC0">CC0 Free content with no restrictions</option>
       </select><br>
-  
+
       <input class="jwrr_upload_form_checkbox" type="checkbox" name="watermark" id="watermark" value="yes" checked="true"><label>Add Watermark</label><br>
       <input class="jwrr_upload_form_checlbox" type="checkbox" name="shred" id="shred" value="yes" checked="true"><label>Shred it like your cat would</label><br>
-  
+
       <label for="description">Description</label><br>
       <textarea name="description" id="description" cols="80" rows="10"></textarea><br>
-  
+
       <input class="jwrr_upload_form_submit" type="submit" value="Upload Image" name="submit">
       </div>
   </form>
@@ -101,13 +101,13 @@ function jwrr_upload_handler()
   print_r($_POST);
 
   $username = jwrr_get_username();
-  
+
   $orig_dir = "$username/orig/";
   $success = jwrr_mkdir($orig_dir);
-  
+
   $meta_dir = "$username/meta/";
   $success = jwrr_mkdir($meta_dir);
-  
+
   $upload_filename = htmlspecialchars($_FILES["upload_filename"]["name"]);
   $upload_filename = str_replace(' ', '-', $upload_filename);
   $orig_filename = $orig_dir . basename($upload_filename);
@@ -152,19 +152,16 @@ function jwrr_upload_handler()
     if (move_uploaded_file($_FILES["upload_filename"]["tmp_name"], $orig_filename)) {
 //      echo "The file ". htmlspecialchars( basename( $_FILES["upload_filename"]["name"])). " has been uploaded.";
 
-       $small_dir = "rachel/small";
-       $big_dir = "rachel/big";
+       $small_dir = "$username/small";
+       $big_dir = "$username/big";
+       jwrr_mkdir($small_dir);
+       jwrr_mkdir($big_dir);
        // mogrify -resize x440 -quality 100 -path small *.jpg
        exec("mogrify -resize x440 -quality 75 -path $small_dir $orig_filename", $exec_output, $exec_retval);
        exec("mogrify -resize 1024x -quality 75 -path $big_dir $orig_filename", $exec_output, $exec_retval);
 
     }
-
-    $img = str_replace("orig", "big", $orig_filename);
-    $chunks = explode('/', $img);
-    $artist1 = $chunks[0];
   }
   return $img;
  }
-
 

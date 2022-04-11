@@ -18,7 +18,7 @@ function jwrr_post_tags()
 	if  ($post_tags) {
 		$t = count($post_tags) > 1 ? 'Tags:' : 'Tag:'; 
 		$html =	"\n$indent<!-- plugin: jwrr-post-tags -->\n" . "
-<style type=\"text/css\">
+<style>
 ul.jwrr_post_tags {margin:0.4em 0 0.4em 0.3em;padding:0 0 0 0;}
 ul.jwrr_post_tags li {
 display: inline;

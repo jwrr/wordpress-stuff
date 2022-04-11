@@ -1,7 +1,7 @@
 <?php
 /*
- Plugin Name: JWRR Login Form
- Plugin URI: https://github.com/wordpress-stuff/wp-content/plugins/jwrr-login-form
+ Name: JWRR Login Form
+ URI: https://github.com/wordpress-stuff/wp-content/plugins/jwrr-login-form
  Description: a plugin to add an login form to a page
  Version: 0.1
  Author: jwrr
@@ -77,5 +77,4 @@ HEREDOC2;
 
   return $html;
 }
-
 

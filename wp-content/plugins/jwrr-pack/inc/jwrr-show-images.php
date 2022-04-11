@@ -1,7 +1,7 @@
 <?php
 /*
- Plugin Name: JWRR Show Images
- Plugin URI: https://github.com/wordpress-stuff/wp-content/plugins/jwrr-show-images
+ Name: JWRR Show Images
+ URI: https://github.com/wordpress-stuff/wp-content/plugins/jwrr-show-images
  Description: a plugin to show gallery of images in a page
  Version: 0.1
  Author: jwrr
@@ -48,10 +48,10 @@ HEREDOC;
 
     foreach($images as $image)
     {
-      $b = "/art/$artist/small/" . basename($image);
+      $i = "/art/$artist/small/" . basename($image);
+      $b = str_replace("/small", "", $i);
       $b = str_replace(".jpg", "", $b);
-      // $html .= "    <a href='/index.php/show?img=$b'><img src='$b' class='small'></a>\n";
-      $html .= "    <a href='/index.php/show$b'><img src='$b.jpg' class='small'></a>\n";
+      $html .= "    <a href='/show$b'><img src='$i' class='small'></a>\n";
     }
     $html .= "   <div style='clear:both'></div>\n";
     $html .= $copyright;
@@ -64,23 +64,22 @@ function jwrr_show_images()
 {
   $enable_style = true;
   $img = htmlspecialchars($_GET["img"]);
-  $img = str_replace("small", "big", $img);
   $img = rtrim($img,"/");
   $chunks = explode('/', $img);
-  $artist1 = $chunks[2];
-
-  $artist_fullname = jwrr_get_fullname($artist1);
-
-  $artist = preg_replace("/[^\w\d]/", ' ', $artist1);
+  $artist_username = $chunks[2];
+  
+  $last_chunk = count($chunks) - 1;
+  $chunks[$last_chunk] = "big/" . $chunks[$last_chunk] . '.jpg';
+  $big_image_path = implode('/', $chunks);
 
   $buy_platform = "Zazzle";
   $buy_platform_icon = "https://catartists.org/wp-content/plugins/jwrr-social/images/zazzle.png";
   $buy_url = "https://www.zazzle.com/store/rachel_armington_art/products?cg=196759976565079751";
 
-  $copyright = jwrr_copyright("2022", $artist);
+  $copyright = jwrr_copyright("2022", $artist_fullname);
   $buybar = jwrr_buybar($buy_platform, $buy_platform_icon, $buy_url);
 
-  $more_art_by_artist = jwrr_get_art_by_artist($artist1, $copyright);
+  $more_art_by_artist = jwrr_get_art_by_artist($artist_username, $copyright);
 
   $html = "
 
@@ -111,7 +110,7 @@ HEREDOC_STYLE;
     <h1>Artwork by $artist_fullname</h1>
     $buybar
     $copyright
-    <img src='$img.jpg'>
+    <img src="$big_image_path">
     <hr>
 
     <h2>Here is more of my art</h2>

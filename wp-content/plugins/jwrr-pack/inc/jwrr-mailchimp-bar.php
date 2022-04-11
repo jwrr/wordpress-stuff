@@ -1,7 +1,7 @@
 <?php
 /*
- Plugin Name: JWRR Mailchimp Bar
- Plugin URI: https://github.com/wordpress-stuff/wp-content/plugins/jwrr-mailchimp_bar
+ Name: JWRR Mailchimp Bar
+ URI: https://github.com/wordpress-stuff/wp-content/plugins/jwrr-mailchimp_bar
  Description: a plugin to add a Mailchimp signup bar at the top of the page
  Version: 0.1
  Author: jwrr

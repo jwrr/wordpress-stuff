@@ -41,7 +41,7 @@ function get_meta_description()
 
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width">
@@ -50,7 +50,7 @@ function get_meta_description()
 <?php } ?>
 <?php echo get_page_title() ?>
 <?php echo get_meta_description() ?>
-<link rel="stylesheet" type="text/css" href="<?php bloginfo('template_directory'); ?>/style.css" />
+<link rel="stylesheet" href="<?php bloginfo('template_directory'); ?>/style.css" />
 <?php wp_head(); ?>
 </head>
 <body>

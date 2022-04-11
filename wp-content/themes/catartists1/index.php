@@ -4,7 +4,7 @@ require_once "config.php";
 get_header();
 
 if (wp_is_mobile()) {
-  echo "<style  type='text/css'>
+  echo "<style >
 #theme_content {width:99%;float:none;padding:0 0 0 0; margin:0 0 0 0;}
 #theme_nav {width:99%;float:none;padding:0 0 0 0; margin:0 0 0 0;}
 .theme_the_title {font-size:1.3em;margin:0.5em 0 0 0em;}
@@ -17,7 +17,7 @@ if (wp_is_mobile()) {
 ";
 }
 
-echo "<style  type='text/css'>
+echo "<style >
 #jwrr_banner {margin: 0 0 1em 0;}
 #theme_content {width:100%;float:none;}
 </style>

@@ -1,7 +1,7 @@
 <?php
 /*
- Plugin Name: JWRR Google Analytics
- Plugin URI: http://jwrr.com/wp/plugins/jwrr_google_analytics
+ Name: JWRR Google Analytics
+ URI: http://jwrr.com/wp/plugins/jwrr_google_analytics
  Description: a plugin to add the Google Analytics to the page footer.
  Version: 0.1
  Author: jwrr
@@ -41,10 +41,4 @@ HEREDOC;
 }
 add_shortcode('ga', 'jwrr_google_analytics_function');
 
-// function register_shortcodes(){
-// add_shortcode('youtube', 'jwrr_youtube_function');
-//}
 
-// add_action( 'init', 'register_shortcodes');
-
-?>
