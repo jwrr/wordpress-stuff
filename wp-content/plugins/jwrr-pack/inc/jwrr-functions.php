@@ -10,10 +10,6 @@
 */
 
 
-// ====================================================================
-// FUNCTIONS FOR CATARTISTS.ORG
-
-
 //  Hide the admin bar for all users except the administrator
 add_action('after_setup_theme', 'remove_admin_bar');
 function remove_admin_bar() {
@@ -21,6 +17,13 @@ function remove_admin_bar() {
     show_admin_bar(false);
   }
 }
+
+
+function jwrr_clean_lower($string)
+{
+  return strtolower(preg_replace('/[^\w-]/u', '', $string));
+}
+
 
 
 function jwrr_is_logged_in()
@@ -79,8 +82,10 @@ function jwrr_get_lastname($username='')
 
 function jwrr_get_fullname($username='')
 {
-  $full_name = jwrr_get_firstname($username) . ' ' . jwrr_get_lastname($username);
-  return $full_name;
+  $firstname = jwrr_get_firstname($username);
+  $lastname =  jwrr_get_lastname($username);
+  $fullname = trim("$firstname $lastname");
+  return $fullname;
 } 
  
  
@@ -120,7 +125,8 @@ function search_and_show_images($path= "art/*/small/*jpg", $search_string="")
   foreach($images as $image)
   {
     $url = str_replace('.jpg', '', $image);
-    $url = str_replace('/small', '', $url);
+    $url = str_replace('art/', '', $url);
+    $url = str_replace('/small/', '/', $url);
     echo "<a href='/index.php/show/$url'><img src=\"/$image\" class=\"small\" loading=\"lazy\"></a>\n";
   }
   echo '   <div style="clear:both"></div>';

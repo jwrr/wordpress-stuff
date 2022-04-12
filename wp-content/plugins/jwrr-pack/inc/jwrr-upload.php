@@ -14,7 +14,6 @@ add_shortcode('jwrr_upload_form', 'jwrr_upload_form');
 function jwrr_upload_form($atts = array(), $content = null, $tag = '')
 {
 
-//  $upload_handler = "/art/index.php";
   $upload_handler = "/upload-handler";
   $enable_style = true;
   $please_log_in_msg = "Please Log In";
@@ -128,10 +127,10 @@ function jwrr_upload_handler()
 
   $username = jwrr_get_username();
 
-  $orig_dir = "$username/orig/";
+  $orig_dir = "art/$username/orig/";
   $success = jwrr_mkdir($orig_dir);
 
-  $meta_dir = "$username/meta/";
+  $meta_dir = "art/$username/meta/";
   $success = jwrr_mkdir($meta_dir);
 
   $upload_filename = htmlspecialchars($_FILES["upload_filename"]["name"]);
@@ -178,8 +177,8 @@ function jwrr_upload_handler()
     if (move_uploaded_file($_FILES["upload_filename"]["tmp_name"], $orig_filename)) {
 //      echo "The file ". htmlspecialchars( basename( $_FILES["upload_filename"]["name"])). " has been uploaded.";
 
-       $small_dir = "$username/small";
-       $big_dir = "$username/big";
+       $small_dir = "art/$username/small";
+       $big_dir = "art/$username/big";
        jwrr_mkdir($small_dir);
        jwrr_mkdir($big_dir);
        // mogrify -resize x440 -quality 100 -path small *.jpg

@@ -13,9 +13,8 @@ add_shortcode('jwrr_show_images', 'jwrr_show_images');
 
 
 
-  function jwrr_copyright($year, $artist, $type="")
+  function jwrr_copyright($year, $fullname, $type="")
   {
-    $fullname = jwrr_get_fullname($artist);
     $html = <<<HEREDOC
     <div class="jwrr_copyright">&copy 2022 $fullname. All copyright and reproduction rights remain with the artist.</div>
 HEREDOC;
@@ -49,7 +48,8 @@ HEREDOC;
     foreach($images as $image)
     {
       $i = "/art/$artist/small/" . basename($image);
-      $b = str_replace("/small", "", $i);
+      $b = str_replace("/art", "", $i);
+      $b = str_replace("/small", "", $b);
       $b = str_replace(".jpg", "", $b);
       $html .= "    <a href='/show$b'><img src='$i' class='small'></a>\n";
     }
@@ -66,12 +66,24 @@ function jwrr_show_images()
   $img = htmlspecialchars($_GET["img"]);
   $img = rtrim($img,"/");
   $chunks = explode('/', $img);
-  $artist_username = $chunks[2];
   
-  $last_chunk = count($chunks) - 1;
-  $chunks[$last_chunk] = "big/" . $chunks[$last_chunk] . '.jpg';
-  $big_image_path = implode('/', $chunks);
-
+  $artist_username = jwrr_clean_lower($chunks[1]);
+  $art_title = jwrr_clean_lower($chunks[2]);
+  
+  $artist_fullname = jwrr_get_fullname($artist_username);
+  
+  if ($artist_fullname == '') return $html;  
+  
+  $big_image_url = "/art/$artist_username/big/$art_title.jpg";
+  $big_image_path = $_SERVER['DOCUMENT_ROOT'] . $big_image_url;
+  $big_image_exists = file_exists($big_image_path);
+  $img_html = '';
+  $some_more = "some";
+  if ($big_image_exists) {
+    $img_html = '<img src="' . $big_image_url . '">';
+    $some_more = "more";
+  }  
+  
   $buy_platform = "Zazzle";
   $buy_platform_icon = "https://catartists.org/wp-content/plugins/jwrr-social/images/zazzle.png";
   $buy_url = "https://www.zazzle.com/store/rachel_armington_art/products?cg=196759976565079751";
@@ -110,10 +122,10 @@ HEREDOC_STYLE;
     <h1>Artwork by $artist_fullname</h1>
     $buybar
     $copyright
-    <img src="$big_image_path">
+    $img_html
     <hr>
 
-    <h2>Here is more of my art</h2>
+    <h2>Here is $some_more of my art</h2>
 
     $more_art_by_artist
 
