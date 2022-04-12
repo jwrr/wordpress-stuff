@@ -28,11 +28,25 @@ function jwrr_upload_form($atts = array(), $content = null, $tag = '')
 
   <style>
   input.jwrr_upload_form_file {color:white;background-color:green; padding:0.5em; font-size:1.5em; border-radius:10px; width:75%;}
-  input.jwrr_upload_form_submit  {color:white;background-color:green; padding:0.6em; font-size:1.5em; border-radius:10px;}
-  div.jwrr_upload_form {margin-left:auto; margin-right: auto;text-align:center;}
   div.jwrr_upload_form h2 {margin:0; padding:0;}
   div.jwrr-upload-form-please-log-in {font-size: 2.0em; font-weight:bold;margin:1em;}
+
+    div.user-name-wrap {margin:1em;}
+    div.user-pass-wrap {margin:1em;}
+    div.jwrr-oneliner {padding: 1em 0 0 1em; font-size:1.5em;}
+    div.jwrr-oneliner label {display:block; margin-left:0.5em;}
+    div.jwrr-oneliner input.jwrr-submit {display:block; margin-left:0em; background-color:green; color:white;}
+    div.jwrr-oneliner input {font-size:1.5em;border-color:gray;border-radius:10px;padding:0.3em;width:68%;}
+    div.jwrr-oneliner textarea {font-size:1.5em;border-color:gray;border-radius:10px;padding:0.3em;width:68%;}
+    div.jwrr-oneliner select {display:block; margin-left:0em; font-size:1.1em;border-color:gray;border-radius:10px;padding:0.3em;}
+    div.jwrr-checkboxes {display:block; margin-left:1.5em; font-size:1.5em;border-color:gray;border-radius:10px;padding:0.3em;}
+    div.jwrr-checkbox {display:inline; padding-right:3em;}
+    div.jwrr-checkbox input {width:2em; height: 2em;}
+    .forgetmenot {margin:1em;}
   </style>
+
+
+
 
 HEREDOC1;
   }
@@ -44,33 +58,45 @@ HEREDOC1;
   } else {
     $html .= <<<HEREDOC2
   <div class="jwrr_upload_form">
-  <h2>$select_file_msg</h2>
   <form action="$upload_handler" method="post" enctype="multipart/form-data">
-    <input class="jwrr_upload_form_file" type="file" name="upload_filename" id="upload_filename">
-    <div style="text-align:left;margin-left:12%;font-size:1.5em;">
-      <label for="title">Title</label><br>
-      <input class="jwrr_upload_form_title" type="text" name="title" id="title" cols="60" style="font-size:1.3em;"><br>
+      <div class=jwrr-oneliner>
+        <label for "upload_filename">$select_file_msg</label>
+        <input class="jwrr_upload_form_file" type="file" name="upload_filename" id="upload_filename">
+      </div>
+      <div class=jwrr-oneliner>
+        <label for="copyright">Choose a Copyright Notice:</label>
+        <select class="jwrr_upload_form_select" id="copyright" name="copyright">
+          <option value="all" selected>All rights reserved</option>
+          <option value="none">None</option>
+          <option value="BY-NC-ND">BY-NC-ND Needs Attribution, non-commercial and no derivatives</option>
+          <option value="BY-ND">BY-ND Needs Attribution and no derivatives</option>
+          <option value="CC0">CC0 Free content with no restrictions</option>
+        </select><br>
+      </div>
 
-      <label for="copyright">Choose a Copyright Notice:</label><br>
-      <select class="jwrr_upload_form_select" id="copyright" name="copyright" style="font-size:1em;">
-        <option value="all" selected>All rights reserved</option>
-        <option value="none">None</option>
-        <option value="BY-NC-ND">BY-NC-ND Needs Attribution, only for non-commercial and no derivatives</option>
-        <option value="BY-ND">BY-ND Needs Attribution and no derivatives</option>
-        <option value="BY-NC-SA">BY-NC-SA Needs Attribution, only for non-commercial and ShareAlike</option>
-        <option value="BY-NC">BY-NC Needs Attribution and only for non-commercial</option>
-        <option value="BY-SA">BY-SA Needs Attribution and ShareAlike</option>
-        <option value="BY">BY Needs Attribution</option>
-        <option value="CC0">CC0 Free content with no restrictions</option>
-      </select><br>
+      <div class=jwrr-checkboxes>
+        <div class="jwrr-checkbox">
+          <label>Add Watermark</label> <input type="checkbox" name="watermark" id="watermark" value="yes" checked="true">
+        </div>
+        <div class="jwrr-checkbox">
+          <label>Shred it like your cat would</label><input type="checkbox" name="shred" id="shred" value="yes" checked="true">
+        </div>
+      </div>
 
-      <input class="jwrr_upload_form_checkbox" type="checkbox" name="watermark" id="watermark" value="yes" checked="true"><label>Add Watermark</label><br>
-      <input class="jwrr_upload_form_checlbox" type="checkbox" name="shred" id="shred" value="yes" checked="true"><label>Shred it like your cat would</label><br>
+      <div class=jwrr-oneliner>
+      </div>
+      <div class=jwrr-oneliner>
+        <label for="title">Title (Optional)</label>
+        <input class="jwrr_upload_form_title" type="text" name="title" id="title" cols="60" style="font-size:1.3em;"><br>
+      </div>
 
-      <label for="description">Description</label><br>
-      <textarea name="description" id="description" cols="80" rows="10"></textarea><br>
+      <div class=jwrr-oneliner>
+        <label for="description">Description (Optional))</label>
+        <textarea name="description" id="description" cols="111" rows="10"></textarea><br>
+      </div>
 
-      <input class="jwrr_upload_form_submit" type="submit" value="Upload Image" name="submit">
+      <div class=jwrr-oneliner>
+        <input class="jwrr-submit" type="submit" value="Upload Image" name="submit">
       </div>
   </form>
   </div>

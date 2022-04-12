@@ -1,7 +1,15 @@
 <?php
 require_once "config.php";
 
+  if ($_GET['action']=='logout' && is_user_logged_in()) {
+    wp_logout();
+    wp_redirect('/');
+    exit();
+  }
+
+
 get_header();
+
 
 if (wp_is_mobile()) {
   echo "<style >

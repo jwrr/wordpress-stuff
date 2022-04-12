@@ -41,7 +41,7 @@ a.jwrr_button_right:visited {color: white; text-decoration: none;}
     $username =  ucwords($user->user_login);
     $buttons .= <<<HEREDOC_LOGGED_IN
    <a class="jwrr_button_right" href="/index.php/upload">$username</a>
-   <a class="jwrr_button_right" href="/wp-login.php?action=logout">Sign Out</a>
+   <a class="jwrr_button_right" href="/index.php/signin?action=logout">Sign Out</a>
    <a class="jwrr_button_right" href="/index.php/upload">Upload</a>
 HEREDOC_LOGGED_IN;
 

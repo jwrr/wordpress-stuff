@@ -13,7 +13,6 @@ add_shortcode('jwrr_login_form', 'jwrr_login_form');
 
 function jwrr_login_form($atts = array(), $content = null, $tag = '')
 {
-
   $login_page = "/wp-login.php";
   $lost_page = "/wp-login.php?action=lostpassword";
   $redirect_page = "/";
@@ -45,7 +44,7 @@ $html .= <<<HEREDOC2
     <div class="user-name-wrap">
       <label for="user_login">Username or Email Address</label>
       <div class="wp-usr">
-        <input type="text" name="log" id="user_login" class="input" value="" size="30" autocapitalize="off" />
+        <input type="text" name="log" id="user_login" class="input" value="" size="30" autofocus />
       </div>
     </div>
     
