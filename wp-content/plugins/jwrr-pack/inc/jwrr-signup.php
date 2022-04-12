@@ -11,6 +11,9 @@
 
 
 function jwrr_signup_form( $username, $password, $email, $website, $first_name, $last_name, $nickname, $bio ) {
+
+
+
     echo '
     <style>
     div {
@@ -20,51 +23,85 @@ function jwrr_signup_form( $username, $password, $email, $website, $first_name, 
     input{
         margin-bottom:4px;
     }
+
+  input.jwrr_upload_form_file {color:white;background-color:green; padding:0.5em; font-size:1.5em; border-radius:10px; width:75%;}
+  div.jwrr_upload_form h2 {margin:0; padding:0;}
+  div.jwrr-upload-form-please-log-in {font-size: 2.0em; font-weight:bold;margin:1em;}
+
+    div.user-name-wrap {margin:1em;}
+    div.user-pass-wrap {margin:1em;}
+    div.jwrr-oneliner {padding: 1em 0 0 1em;}
+    div.jwrr-oneliner label {display:block; margin-left:0.5em;}
+    div.jwrr-oneliner input[type=submit] {display:block; margin-left:0em; background-color:green; color:white;}
+    div.jwrr-oneliner input {font-size:1.5em;border-color:gray;border-radius:10px;padding:0.3em;width:68%;}
+    div.jwrr-oneliner textarea {font-size:1.5em;border-color:gray;border-radius:10px;padding:0.3em;width:68%;}
+    div.jwrr-oneliner select {display:block; margin-left:0em; font-size:1.1em;border-color:gray;border-radius:10px;padding:0.3em;}
+    div.jwrr-checkboxes {display:block; margin-left:1.5em; font-size:1.5em;border-color:gray;border-radius:10px;padding:0.3em;}
+    div.jwrr-checkbox {display:inline; padding-right:3em;}
+    div.jwrr-checkbox input {width:2em; height: 2em;}
+  </style>
+ 
+
+
+
     </style>
     ';
 
     echo '
     <form action="' . $_SERVER['REQUEST_URI'] . '" method="post">
-    <div>
-    <label for="username">Username <strong>*</strong></label>
-    <input type="text" name="username" value="' . ( isset( $_POST['username'] ) ? $username : null ) . '">
+
+    <div class="jwrr-oneliner">
+    <label for="email">Email (required). You\'re email is kept private</label>
+    <input type="text" name="email" value="' . ( isset( $_POST['email']) ? $email : null ) . '" autofocus>
     </div>
 
-    <div>
-    <label for="password">Password <strong>*</strong></label>
+    <div class="jwrr-oneliner">
+    <label for="password">Password (required)</label>
     <input type="password" name="password" value="' . ( isset( $_POST['password'] ) ? $password : null ) . '">
     </div>
 
-    <div>
-    <label for="email">Email <strong>*</strong></label>
-    <input type="text" name="email" value="' . ( isset( $_POST['email']) ? $email : null ) . '">
-    </div>
-
-    <div>
-    <label for="website">Website</label>
-    <input type="text" name="website" value="' . ( isset( $_POST['website']) ? $website : null ) . '">
-    </div>
-
-    <div>
-    <label for="firstname">First Name</label>
+    <div class="jwrr-oneliner">
+    <label for="firstname">First Name (Optional)</label>
     <input type="text" name="fname" value="' . ( isset( $_POST['fname']) ? $first_name : null ) . '">
     </div>
 
-    <div>
-    <label for="website">Last Name</label>
+    <div class="jwrr-oneliner">
+    <label for="website">Last Name (Optional)</label>
     <input type="text" name="lname" value="' . ( isset( $_POST['lname']) ? $last_name : null ) . '">
     </div>
 
-    <div>
-    <label for="nickname">Nickname</label>
-    <input type="text" name="nickname" value="' . ( isset( $_POST['nickname']) ? $nickname : null ) . '">
+    <div class="jwrr-oneliner">
+    <label for="username">Username (Optional)</label>
+    <input type="text" name="username" value="' . ( isset( $_POST['username'] ) ? $username : null ) . '">
     </div>
 
-    <div>
-    <label for="bio">About / Bio</label>
+    <div class="jwrr-oneliner">
+    <label for="website">Website (Optional)</label>
+    <input type="text" name="website" placeholder="https://rachelarmington.com/" value="' . ( isset( $_POST['website']) ? $website : null ) . '">
+    </div>
+
+    <div class="jwrr-oneliner">
+    <label for="social">Social such as Facebook, Instagram, Twitter... (Optional)</label>
+    <input type="text" name="website" placeholder="https://facebook.com/RachelArmingtonPaints" value="' . ( isset( $_POST['website']) ? $website : null ) . '">
+    </div>
+
+    <div class="jwrr-oneliner">
+    <label for="social">Another Social (Optional)</label>
+    <input type="text" name="website" placeholder="https://pinterest.com/CatPaintings" value="' . ( isset( $_POST['website']) ? $website : null ) . '">
+    </div>
+
+    <div class="jwrr-oneliner">
+    <label for="social">And maybe one more Social (Optional)</label>
+    <input type="text" name="website" placeholder="https://twitter.com/rachelarmington" value="' . ( isset( $_POST['website']) ? $website : null ) . '">
+    </div>
+
+    <div class="jwrr-oneliner">
+    <label for="bio">About / Bio  (Optional)</label>
     <textarea name="bio">' . ( isset( $_POST['bio']) ? $bio : null ) . '</textarea>
     </div>
+    <div class="jwrr-oneliner">
     <input type="submit" name="submit" value="Register"/>
+    </div>
     </form>
     ';
 }

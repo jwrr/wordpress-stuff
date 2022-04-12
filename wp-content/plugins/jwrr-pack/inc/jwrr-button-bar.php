@@ -48,7 +48,7 @@ HEREDOC_LOGGED_IN;
   } else {
     $buttons .= <<<HEREDOC_LOGGED_OUT
    <a class="jwrr_button_right" href="/index.php/signin">Sign In</a>
-   <a class="jwrr_button_right" href="/index.php/join">Join</a>
+   <a class="jwrr_button_right" href="/index.php/signup">Join</a>
 HEREDOC_LOGGED_OUT;
     
   }
