@@ -34,7 +34,7 @@ function jwrr_upload_form($atts = array(), $content = null, $tag = '')
     div.user-pass-wrap {margin:1em;}
     div.jwrr-oneliner {padding: 1em 0 0 1em; font-size:1.5em;}
     div.jwrr-oneliner label {display:block; margin-left:0.5em;}
-    div.jwrr-oneliner input.jwrr-submit {display:block; margin-left:0em; background-color:green; color:white;}
+    div.jwrr-oneliner input[type=submit] {margin-left:0em; background-color:green; color:white;width:6em;}
     div.jwrr-oneliner input {font-size:1.5em;border-color:gray;border-radius:10px;padding:0.3em;width:68%;}
     div.jwrr-oneliner textarea {font-size:1.5em;border-color:gray;border-radius:10px;padding:0.3em;width:68%;}
     div.jwrr-oneliner select {display:block; margin-left:0em; font-size:1.1em;border-color:gray;border-radius:10px;padding:0.3em;}
@@ -43,9 +43,6 @@ function jwrr_upload_form($atts = array(), $content = null, $tag = '')
     div.jwrr-checkbox input {width:2em; height: 2em;}
     .forgetmenot {margin:1em;}
   </style>
-
-
-
 
 HEREDOC1;
   }
@@ -61,7 +58,15 @@ HEREDOC1;
       <div class=jwrr-oneliner>
         <label for "upload_filename">$select_file_msg</label>
         <input class="jwrr_upload_form_file" type="file" name="upload_filename" id="upload_filename">
+        <input class="jwrr-submit" type="submit" value="Upload" name="submit">
       </div>
+  </form>
+  </div>
+
+HEREDOC2;
+  }
+
+$save = <<<HEREDOC_SAVE
       <div class=jwrr-oneliner>
         <label for="copyright">Choose a Copyright Notice:</label>
         <select class="jwrr_upload_form_select" id="copyright" name="copyright">
@@ -93,15 +98,7 @@ HEREDOC1;
         <label for="description">Description (Optional))</label>
         <textarea name="description" id="description" cols="111" rows="10"></textarea><br>
       </div>
-
-      <div class=jwrr-oneliner>
-        <input class="jwrr-submit" type="submit" value="Upload Image" name="submit">
-      </div>
-  </form>
-  </div>
-
-HEREDOC2;
-  }
+HEREDOC_SAVE;
 
   $html .= "
 <!-- end jwrr-upload-form -->
@@ -123,8 +120,6 @@ function jwrr_upload_handler()
   if (!jwrr_is_logged_in()) return "";
   if (!isset($_POST["submit"])) return "";
 
-  print_r($_POST);
-
   $username = jwrr_get_username();
 
   $orig_dir = "art/$username/orig/";
@@ -135,14 +130,14 @@ function jwrr_upload_handler()
 
   $upload_filename = htmlspecialchars($_FILES["upload_filename"]["name"]);
   $upload_filename = str_replace(' ', '-', $upload_filename);
-  $orig_filename = $orig_dir . basename($upload_filename);
+  $orig_basename = basename($upload_filename);
+  $orig_full_filename = $orig_dir . $orig_basename;
   $upload_good = 1;
-  $upload_filetype = strtolower(pathinfo($orig_filename,PATHINFO_EXTENSION));
+  $upload_filetype = strtolower(pathinfo($orig_full_filename,PATHINFO_EXTENSION));
 
   $msg = "";
   $check = getimagesize($_FILES["upload_filename"]["tmp_name"]);
   if($check !== false) {
-    // echo "File is an image - " . $check["mime"] . ".";
     $upload_good = 1;
   } else {
     $msg .= "Sorry, something looks wrong with the file.'";
@@ -150,7 +145,7 @@ function jwrr_upload_handler()
   }
 
   // Check if file already exists
-  if (file_exists($orig_filename)) {
+  if (file_exists($orig_full_filename)) {
     $msg .=  "Sorry, the file already exists. ";
     $upload_good = 0;
   }
@@ -174,19 +169,22 @@ function jwrr_upload_handler()
     $msg .= "Sorry, your file was not uploaded. ";
   // if everything is ok, try to upload file
   } else {
-    if (move_uploaded_file($_FILES["upload_filename"]["tmp_name"], $orig_filename)) {
-//      echo "The file ". htmlspecialchars( basename( $_FILES["upload_filename"]["name"])). " has been uploaded.";
-
+    if (move_uploaded_file($_FILES["upload_filename"]["tmp_name"], $orig_full_filename)) {
        $small_dir = "art/$username/small";
        $big_dir = "art/$username/big";
        jwrr_mkdir($small_dir);
        jwrr_mkdir($big_dir);
        // mogrify -resize x440 -quality 100 -path small *.jpg
-       exec("mogrify -resize x440 -quality 75 -path $small_dir $orig_filename", $exec_output, $exec_retval);
-       exec("mogrify -resize 1024x -quality 75 -path $big_dir $orig_filename", $exec_output, $exec_retval);
+       exec("mogrify -resize x440 -quality 75 -path $small_dir $orig_full_filename", $exec_output, $exec_retval);
+       exec("mogrify -resize 1024x -quality 75 -path $big_dir $orig_full_filename", $exec_output, $exec_retval);
+
+       $orig_basename = str_replace('.jpg', '', $orig_basename);
+       $img_url = "/$username/$orig_basename";
+       $html = jwrr_show_images($img_url);
+       return $html;
 
     }
   }
-  return $img;
+  return "";
  }
 

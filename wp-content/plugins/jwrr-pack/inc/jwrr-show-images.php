@@ -60,13 +60,16 @@ HEREDOC;
   }
 
 
-function jwrr_show_images()
+function jwrr_show_images($img='')
 {
   $enable_style = true;
-  $img = htmlspecialchars($_GET["img"]);
+  if ($img == '') {
+    $img = $_GET["img"];
+  }
+  $img = htmlspecialchars($img);
   $img = rtrim($img,"/");
   $chunks = explode('/', $img);
-  
+
   $artist_username = jwrr_clean_lower($chunks[1]);
   $art_title = jwrr_clean_lower($chunks[2]);
   

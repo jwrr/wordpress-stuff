@@ -40,12 +40,7 @@ function jwrr_signup_form( $username, $password, $email, $website, $first_name, 
     div.jwrr-checkbox {display:inline; padding-right:3em;}
     div.jwrr-checkbox input {width:2em; height: 2em;}
   </style>
- 
-
-
-
-    </style>
-    ';
+';
 
     echo '
     <form action="' . $_SERVER['REQUEST_URI'] . '" method="post">
