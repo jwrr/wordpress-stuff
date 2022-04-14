@@ -10,6 +10,11 @@
 */
 
 
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
+
+
 //  Hide the admin bar for all users except the administrator
 add_action('after_setup_theme', 'remove_admin_bar');
 function remove_admin_bar() {
@@ -24,6 +29,22 @@ function jwrr_clean_lower($string)
   return strtolower(preg_replace('/[^\w-]/u', '', $string));
 }
 
+
+function jwrr_get_userdata($username='')
+{
+  if ($username == ''){
+     $userdata = _wp_get_current_user();
+  } else {
+     $userdata = get_user_by('login', $username);
+  }
+  return $userdata;
+}
+
+function jwrr_user_exists($username)
+{
+  $user = jwrr_get_userdata($username);
+  return $user->exists();
+}
 
 
 function jwrr_is_logged_in()
@@ -51,6 +72,18 @@ function jwrr_get_userid($username='')
   return $user->ID;
 }
 
+
+function jwrr_get_usermeta($username='')
+{
+  if ($username == ''){
+    $id = _wp_get_current_user();
+  } else {
+     $userdata = get_user_by('login', $username);
+     $id = $userdata->ID;
+  }
+  $usermeta = get_user_meta($id);
+  return $userdata;
+}
 
 function jwrr_get_firstname($username='')
 {
@@ -89,6 +122,18 @@ function jwrr_get_fullname($username='')
 } 
  
  
+function jwrr_get_email($username='')
+{
+  if ($username == ''){
+     $user = _wp_get_current_user();
+  } else {
+     $user = get_user_by('login', $username);
+     if ($user == false) return "";
+  }
+  return $user->email;
+}
+
+
 function jwrr_mkdir($path, $permissions = 0777)
 {
   return is_dir($path) || mkdir($path, $permissions, true);
