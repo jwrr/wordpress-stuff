@@ -26,11 +26,11 @@ function jwrr_signup_form( $username, $password, $email, $website, $first_name, 
 //     $usermeta = jwrr_get_usermeta();
 //     var_dump($usermeta);
     $username    = $userdata->user_login;
-    $email       = $userdata->user_email;
-    $website     = $userdata->user_url;
-    $first_name  = $userdata->first_name;
-    $last_name   = $userdata->last_name;
-    $bio         = $userdata->description;
+    if (empty($email))      $email       = $userdata->user_email;
+    if (empty($website))    $website     = $userdata->user_url;
+    if (empty($first_name)) $first_name  = $userdata->first_name;
+    if (empty($last_name))  $last_name   = $userdata->last_name;
+    if (empty($bio))        $bio         = $userdata->description;
 //     $social1     = $usermeta->social1;
 //     $social2     = $usermeta->social2;
 //     $social3     = $usermeta->social3;
@@ -66,6 +66,7 @@ function jwrr_signup_form( $username, $password, $email, $website, $first_name, 
     div.jwrr-checkboxes {display:block; margin-left:1.5em; font-size:1.5em;border-color:gray;border-radius:10px;padding:0.3em;}
     div.jwrr-checkbox {display:inline; padding-right:3em;}
     div.jwrr-checkbox input {width:2em; height: 2em;}
+    div.jwrr-error {color:red; font-size: 2em;margin-left:0.5em;}
   </style>
 ';
 
@@ -73,18 +74,18 @@ function jwrr_signup_form( $username, $password, $email, $website, $first_name, 
     <form action="' . $_SERVER['REQUEST_URI'] . '" method="post">
 
     <div class="jwrr-oneliner">
-    <label for="email">Email (required). We need this to contact you. We do not share it.</label>
-    <input type="text" name="email" value="' . $email . '" autofocus>
-    </div>
-
-    <div class="jwrr-oneliner">
     <label for="username">Username (' , $username_required , ')</label>
     <input type="text" name="username" value="' . $username . '" '  . $username_readonly . '>
     </div>
 
     <div class="jwrr-oneliner">
-    <label for="password">Password (' . $password_required .  ') Passwords are encrypted so even we can see what they are</label>
+    <label for="password">Password (' . $password_required .  ') Passwords are encrypted so even we can\'t see what they are</label>
     <input type="password" name="password" value="' . $password .'">
+    </div>
+
+    <div class="jwrr-oneliner">
+    <label for="email">Email (required). We need this to contact you. Your privacy is imporant and we don\'t share your info with anyone.</label>
+    <input type="text" name="email" value="' . $email . '" autofocus>
     </div>
 
     <div class="jwrr-oneliner">
@@ -160,7 +161,7 @@ function jwrr_signup_validation( $username, $password, $email, $website, $first_
 
   $password_len = strlen($password);
   if ($is_logged_in) {
-    if (!empty($password) && $password_len > 0 && $password < 5) {
+    if (!empty($password) && $password_len > 0 && $password_len < 5) {
       $reg_errors->add( 'password_length', 'Password length must be at least 5 characters' );
       $error_count++;
     }
@@ -175,8 +176,12 @@ function jwrr_signup_validation( $username, $password, $email, $website, $first_
   }
 
   if ($is_logged_in) {
-    if (!empty($email) && $email != jwrr_get_email() && email_exists($email) ) {
+    $current_user_email = jwrr_get_email();
+    if (!empty($email) && $email != $current_user_email && email_exists($email) ) {
       $reg_errors->add( 'email_existsl', 'Email Already in use' );
+      $error_count++;
+    } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      $reg_errors->add( 'email_invalid', 'Email doesn\'t look right' );
       $error_count++;
     }
   } else {
@@ -185,6 +190,9 @@ function jwrr_signup_validation( $username, $password, $email, $website, $first_
       $error_count++;
     } else if (email_exists($email)) {
       $reg_errors->add( 'email_exists', 'Email Already in use' );
+      $error_count++;
+    } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      $reg_errors->add( 'email_invalid', 'Email doesn\'t look right' );
       $error_count++;
     }
   }
@@ -219,7 +227,7 @@ function jwrr_signup_validation( $username, $password, $email, $website, $first_
 
   if (is_wp_error($reg_errors)) {
      foreach ($reg_errors->get_error_messages() as $error) {
-       echo '<div><strong>ERROR</strong>: ' . $error . '</div>';
+       echo '<div class="jwrr-error"><strong>ERROR</strong>: ' . $error . '</div>';
      }
   }
   return ($error_count > 0);

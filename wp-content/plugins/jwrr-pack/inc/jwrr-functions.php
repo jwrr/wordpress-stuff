@@ -130,7 +130,7 @@ function jwrr_get_email($username='')
      $user = get_user_by('login', $username);
      if ($user == false) return "";
   }
-  return $user->email;
+  return $user->user_email;
 }
 
 

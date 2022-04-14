@@ -37,13 +37,17 @@ HEREDOC;
   }
 
 
-  function jwrr_get_art_by_artist($artist, $copyright)
+  function jwrr_get_art_by_artist($artist, $copyright, $msg='', $min_count=0)
   {
     $doc_root = $_SERVER["DOCUMENT_ROOT"];
     $path = "$doc_root/art/$artist/small/*.jpg";
     $images = glob($path);
+    
+    if (count($images) <= $min_count) return '';
+    
 
-    $html = "  <div class='gallery'>";
+    $html = "$msg
+    <div class='gallery'>";
 
     foreach($images as $image)
     {
@@ -75,7 +79,7 @@ function jwrr_show_images($img='')
   
   $artist_fullname = jwrr_get_fullname($artist_username);
   
-  if ($artist_fullname == '') return $html;  
+  if ($artist_fullname == '') $artist_fullname = $artist_username;
   
   $big_image_url = "/art/$artist_username/big/$art_title.jpg";
   $big_image_path = $_SERVER['DOCUMENT_ROOT'] . $big_image_url;
@@ -94,7 +98,7 @@ function jwrr_show_images($img='')
   $copyright = jwrr_copyright("2022", $artist_fullname);
   $buybar = jwrr_buybar($buy_platform, $buy_platform_icon, $buy_url);
 
-  $more_art_by_artist = jwrr_get_art_by_artist($artist_username, $copyright);
+  $more_art_by_artist = jwrr_get_art_by_artist($artist_username, $copyright, "<h2>Here is $some_more of my art</h2>", 1);
 
   $html = "
 
@@ -127,8 +131,6 @@ HEREDOC_STYLE;
     $copyright
     $img_html
     <hr>
-
-    <h2>Here is $some_more of my art</h2>
 
     $more_art_by_artist
 

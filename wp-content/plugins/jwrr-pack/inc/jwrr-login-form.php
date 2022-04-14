@@ -42,7 +42,7 @@ $html .= <<<HEREDOC2
 <div id="login">
   <form name="loginform" id="loginform" action="$login_page" method="post">
     <div class="user-name-wrap">
-      <label for="user_login">Username or Email Address</label>
+      <label for="user_login">Email Address</label>
       <div class="wp-usr">
         <input type="text" name="log" id="user_login" class="input" value="" size="30" autofocus />
       </div>
