@@ -1225,14 +1225,14 @@ switch ( $action ) {
 				);
 			} elseif ( isset( $_POST['testcookie'] ) && empty( $_COOKIE[ TEST_COOKIE ] ) ) {
 				// If cookies are disabled, we can't log in even with a valid user and password.
-				$user = new WP_Error(
-					'test_cookie',
-					sprintf(
-						/* translators: %s: Browser cookie documentation URL. */
-						__( '<strong>Error</strong>: Cookies are blocked or not supported by your browser. You must <a href="%s">enable cookies</a> to use WordPress.' ),
-						__( 'https://wordpress.org/support/article/cookies/#enable-cookies-in-your-browser' )
-					)
-				);
+// JWRR 				$user = new WP_Error(
+// 					'test_cookie',
+// 					sprintf(
+// 						/* translators: %s: Browser cookie documentation URL. */
+// 						__( '<strong>Error</strong>: Cookies are blocked or not supported by your browser. You must <a href="%s">enable cookies</a> to use WordPress.' ),
+// 						__( 'https://wordpress.org/support/article/cookies/#enable-cookies-in-your-browser' )
+// 					)
+// 				);
 			}
 		}
 
