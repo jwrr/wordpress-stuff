@@ -4,8 +4,19 @@ require_once "config.php";
 
 // JWRR
 // Prevent incorrect browser does not support coookies error after login
-setcookie(TEST_COOKIE, 'WP Cookie check', 0, COOKIEPATH, COOKIE_DOMAIN);
-if ( SITECOOKIEPATH != COOKIEPATH ) setcookie(TEST_COOKIE, 'WP Cookie check', 0, SITECOOKIEPATH, COOKIE_DOMAIN);
+
+// $arr_cookie_options = array (
+//                 'expires' => time() + 60*60*24*30,
+//                 'path' => '/',
+//                 'domain' => '.catartist.org', // leading dot for compatibility or use subdomain
+//                 'secure' => true,     // or false
+//                 'httponly' => true,    // or false
+//                 'samesite' => 'None' // None || Lax  || Strict
+//                 );
+// setcookie('TestCookie', 'The Cookie Value', $arr_cookie_options);
+
+// setcookie(TEST_COOKIE, 'WP Cookie check', 0, COOKIEPATH, COOKIE_DOMAIN);
+// if ( SITECOOKIEPATH != COOKIEPATH ) setcookie(TEST_COOKIE, 'WP Cookie check', 0, SITECOOKIEPATH, COOKIE_DOMAIN);
 
 // Redirect to home page after logging out
   if ($_GET['action']=='logout' && is_user_logged_in()) {
