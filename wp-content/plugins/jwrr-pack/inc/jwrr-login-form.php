@@ -13,12 +13,15 @@ add_shortcode('jwrr_login_form', 'jwrr_login_form');
 
 function jwrr_login_form($atts = array(), $content = null, $tag = '')
 {
-  $login_page = "/wp-login.php";
-  $lost_page = "/wp-login.php?action=lostpassword";
+  $login_page = "/wp-login2.php";
+  $lost_page = "/wp-login2.php?action=lostpassword";
   $redirect_page = "/";
   $enable_style = true;
   $login_button_msg = "Sign In";
   $lost_password_msg = "Lost your password?";
+
+  
+
 
   $html = "
 
@@ -33,12 +36,16 @@ function jwrr_login_form($atts = array(), $content = null, $tag = '')
     div.wp-pwd input {font-size:1.5em;border-color:gray;border-radius:10px;padding:0.3em;width:40%;}
     .forgetmenot {margin:1em;}
     #wp-submit {font-size:1.5em;padding:0.5em 1em 0.5em 1em;margin-left:0.8em;border-color:gray;border-radius:10px;background-color:green;color:white;}
+    h2.whoops {margin-left:05em; color:red;}
   </style>
 
 HEREDOC1;
   }
 
+$whoops = $_REQUEST['whoops'] ? '<h2 class="whoops">Whoooops... Try again</h2>' : ''; 
+
 $html .= <<<HEREDOC2
+$whoops
 <div id="login">
   <form name="loginform" id="loginform" action="$login_page" method="post">
     <div class="user-name-wrap">
