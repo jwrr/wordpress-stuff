@@ -27,7 +27,10 @@ require_once "config.php";
 
 $log_files = glob('art/log*.txt');
 $log_name = empty($log_files) ? 'art/log_' . bin2hex(random_bytes(10)) . '.txt' : $log_files[0];
-file_put_contents($log_name, $_SERVER['REQUEST_URI'].$_POST['artsearch'].PHP_EOL , FILE_APPEND | LOCK_EX);
+$date = date('Y-m-d H:i:s') . ', ';
+$ip = $_SERVER['REMOTE_ADDR'] . ', ';
+$url = $_SERVER['REQUEST_URI'].$_POST['artsearch'];
+file_put_contents($log_name, $date.$ip.$url.PHP_EOL , FILE_APPEND | LOCK_EX);
 
 // END JWRR
 

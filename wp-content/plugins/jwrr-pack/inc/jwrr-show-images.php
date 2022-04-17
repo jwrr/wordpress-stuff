@@ -98,7 +98,7 @@ function jwrr_show_images($img='')
   $copyright = jwrr_copyright("2022", $artist_fullname);
   $buybar = jwrr_buybar($buy_platform, $buy_platform_icon, $buy_url);
 
-  $more_art_by_artist = jwrr_get_art_by_artist($artist_username, $copyright, "<h2>Here is $some_more of my art</h2>", 1);
+  $more_art_by_artist = jwrr_get_art_by_artist($artist_username, $copyright, "<h2>Here is $some_more of my art</h2>", 0);
 
   $html = "
 

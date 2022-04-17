@@ -165,8 +165,9 @@ function search_and_show_images($path= "art/*/small/*jpg", $search_string="")
   
   shuffle($images);
   $images = array_slice($images, 0, 100);
-  
-  echo "<div id=\"theme_inner\">";
+
+  echo "<style> .small:hover {transform: scale(1.5);} </style>
+  <div id=\"theme_inner\">";
   foreach($images as $image)
   {
     $url = str_replace('.jpg', '', $image);

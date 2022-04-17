@@ -36,7 +36,7 @@ function jwrr_signup_form( $username, $password, $email, $website, $first_name, 
 //     $social3     = $usermeta->social3;
   }
 
-  $website_placeholder = (empty($website) || $website=='')  ? 'placeholder="widgetbluesky.com"' : '';
+  $website_placeholder = (empty($website) || $website=='') ? 'placeholder="widgetbluesky.com"' : '';
   $social1_placeholder = (empty($social1) || $social1=='') ? 'placeholder="facebook.com/tickles"' : '';
   $social2_placeholder = (empty($social2) || $social2=='') ? 'placeholder="pinterest.com/nikos"' : '';
   $social3_placeholder = (empty($social3) || $social3=='') ? 'placeholder="twitter.com/maurina"' : '';
@@ -67,6 +67,7 @@ function jwrr_signup_form( $username, $password, $email, $website, $first_name, 
     div.jwrr-checkbox {display:inline; padding-right:3em;}
     div.jwrr-checkbox input {width:2em; height: 2em;}
     div.jwrr-error {color:red; font-size: 2em;margin-left:0.5em;}
+    div.jwrr-success {color:green; font-size: 2em;margin-left:0.5em;}
   </style>
 ';
 
@@ -248,10 +249,10 @@ function jwrr_signup_update_database() {
   if (jwrr_is_logged_in()) {
     $new_userdata['ID'] = jwrr_get_userid();
     $userid = wp_update_user($new_userdata);
-    echo 'Your info has been updated.';
+    echo '<div class="jwrr-success"><strong>Success! </strong<strong>Your info has been updated.</a></div>';
    } else {
      $userid = wp_insert_user($new_userdata);
-     echo 'Registration complete. You can now Sign In.';
+     echo '<div class="jwrr-success"><strong>Success! </strong<strong>You can now <a href="/signin">Sign In</a></div>';
    }
 
 // if (!enmpty($social1)) add_user_meta( $user->ID, 'jwrr_social1', $social1);
