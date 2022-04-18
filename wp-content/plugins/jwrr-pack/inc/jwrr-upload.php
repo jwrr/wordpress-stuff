@@ -180,16 +180,23 @@ function jwrr_upload_handler()
 
 $fullname = jwrr_get_fullname();
 $big_filename = $big_dir . '/' . basename($orig_full_filename);
-$watermark = <<<HEREDOC_WATERMARK
+
+$watermark = <<<HEREDOC_WATERMARK1
 convert -size 600x200 xc:none -pointsize 25 -font Helvetica-BoldOblique  \
 -fill "#8003" -gravity NorthWest -draw "text 50,25 '$fullname'" \
 -fill "#0883" -gravity Center -draw "text 1,1 '$fullname'" \
 -fill "#8083" -gravity SouthEast -draw "text 50,25 '$fullname'" \
 -background none -rotate -10  miff:- | \
 composite -tile - $big_filename $big_filename
-HEREDOC_WATERMARK;
-
+HEREDOC_WATERMARK1;
        exec($watermark, $exec_output, $exec_retval);
+
+$watermark = <<<HEREDOC_WATERMARK2
+convert -size 1024x1304 xc:none -pointsize 60 -font Helvetica-BoldOblique -undercolor '#0006' \
+-fill "#fff6" -gravity North -annotate 0 '.                        $fullname                        .' \
+ miff:- | composite - $big_filename $big_filename
+HEREDOC_WATERMARK2;
+       exec($watermark, $exec_output, $exec_retval);       
 
        $orig_basename = str_replace('.jpg', '', $orig_basename);
        $img_url = "/$username/$orig_basename";
