@@ -47,7 +47,7 @@ a:visited {color:#999999; text-decoration:underline;}
 #theme_nav li {font-size:1.0em;list-style: none;padding:0.5em 0 0.5em 1em;}
 
 .small {height: 220px;transition: transform 1s;padding:0 0 0 0;margin: 0.5em 1em 0.5em 0.2em;border-radius:15px;}
-.small:hover {transform: scale(2.0);}
+.small:hover {transform: scale(1.5);}
 li.theme_tags > ul {display:none;}
 li.theme_tags:hover > ul {display:block;}
 li.theme_tags > .theme_hidden {font-weight:bold;}

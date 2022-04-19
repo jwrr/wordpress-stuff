@@ -9,11 +9,9 @@
  License: GPL3
 */
 
-
 // ini_set('display_errors', 1);
 // ini_set('display_startup_errors', 1);
 // error_reporting(E_ALL);
-
 
 //  Hide the admin bar for all users except the administrator
 add_action('after_setup_theme', 'remove_admin_bar');
@@ -142,7 +140,7 @@ function jwrr_mkdir($path, $permissions = 0777)
 
 function get_post_search_string($search_string='', $search_key = 'artsearch')
 {
-  if ($search_string=='' && $_POST['artsearch']) {
+  if ($search_string=='' && !empty($_POST['artsearch'])) {
     $search_string = htmlspecialchars($_POST['artsearch']);
     $search_string = str_replace('/', '\/', $search_string);
   }
@@ -166,7 +164,10 @@ function search_and_show_images($path= "art/*/small/*jpg", $search_string="")
   shuffle($images);
   $images = array_slice($images, 0, 100);
 
-  echo "<style> .small:hover {transform: scale(1.5);} </style>
+  echo "<style> 
+   .small {max-width:98%;height:auto; max-height:200px;}
+   .small:hover {transform: scale(1.5);}
+  </style>
   <div id=\"theme_inner\">";
   foreach($images as $image)
   {
@@ -179,4 +180,25 @@ function search_and_show_images($path= "art/*/small/*jpg", $search_string="")
   echo '   Please note that all copyright and reproduction rights remain with the artist.';
   echo '  </div>';
 }
+
+
+function jwrr_parse_img_path($img='')
+{
+  if ($img == '' && !empty($_GET["img"])) {
+    $img = $_GET["img"];
+  }
+  if ($img == '') return [];
+  
+  $img = htmlspecialchars($img);
+  $img = rtrim($img,"/");
+  $chunks = explode('/', $img);
+  $artist_username = jwrr_clean_lower($chunks[1]);
+  $art_title = jwrr_clean_lower($chunks[2]);
+  $artist_fullname = jwrr_get_fullname($artist_username);
+  if ($artist_fullname == '') $artist_fullname = $artist_username;
+  $a = ['username' => $artist_username, 'title' => $art_title , 'fullname' => $artist_fullname];
+  return $a;
+}
+
+
 

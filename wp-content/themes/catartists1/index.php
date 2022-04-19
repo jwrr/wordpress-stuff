@@ -1,25 +1,8 @@
 <?php
 require_once "config.php";
 
-
-// JWRR
-// Prevent incorrect browser does not support coookies error after login
-
-// $arr_cookie_options = array (
-//                 'expires' => time() + 60*60*24*30,
-//                 'path' => '/',
-//                 'domain' => '.catartist.org', // leading dot for compatibility or use subdomain
-//                 'secure' => true,     // or false
-//                 'httponly' => true,    // or false
-//                 'samesite' => 'None' // None || Lax  || Strict
-//                 );
-// setcookie('TestCookie', 'The Cookie Value', $arr_cookie_options);
-
-// setcookie(TEST_COOKIE, 'WP Cookie check', 0, COOKIEPATH, COOKIE_DOMAIN);
-// if ( SITECOOKIEPATH != COOKIEPATH ) setcookie(TEST_COOKIE, 'WP Cookie check', 0, SITECOOKIEPATH, COOKIE_DOMAIN);
-
 // Redirect to home page after logging out
-  if ($_GET['action']=='logout' && is_user_logged_in()) {
+  if (!empty($_GET['action']) && $_GET['action']=='logout' && is_user_logged_in()) {
     wp_logout();
     wp_redirect('/');
     exit();
@@ -29,12 +12,11 @@ $log_files = glob('art/log*.txt');
 $log_name = empty($log_files) ? 'art/log_' . bin2hex(random_bytes(10)) . '.txt' : $log_files[0];
 $date = date('Y-m-d H:i:s') . ', ';
 $ip = $_SERVER['REMOTE_ADDR'] . ', ';
-$url = $_SERVER['REQUEST_URI'].$_POST['artsearch'];
+$artsearch = empty($_POST['artsearch']) ? '' : $_POST['artsearch'];
+$url = $_SERVER['REQUEST_URI'].$artsearch;
 file_put_contents($log_name, $date.$ip.$url.PHP_EOL , FILE_APPEND | LOCK_EX);
 
 // END JWRR
-
-
 
 
 get_header();

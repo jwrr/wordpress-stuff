@@ -32,7 +32,7 @@ function jwrr_random_banner()
 		$i = rand(0,$cnt-1);
 		$banner_name = '/wp-content/uploads/' . basename($banner_glob_array[$i]);
 		$banner_url = $upload_url . '/' . basename($banner_glob_array[$i]);
-		$html .= "<div id=\"jwrr_banner\"><img src=\"$banner_name\" alt=\"banner\"></div>\n\n";
+		$html .= "<div id=\"jwrr_banner\"><img style=\"max-width:98%\" src=\"$banner_name\" alt=\"banner\"></div>\n\n";
 	}
 	if ($enable_echo) echo $html;
 	return $html;

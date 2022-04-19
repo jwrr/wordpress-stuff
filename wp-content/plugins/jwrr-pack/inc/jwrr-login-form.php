@@ -54,7 +54,7 @@ $whoops
         <input type="text" name="log" id="user_login" class="input" value="" size="30" autofocus />
       </div>
     </div>
-    
+
     <div class="user-pass-wrap">
       <label for="user_pass">Password</label><br>
       <div class="wp-pwd">

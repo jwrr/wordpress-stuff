@@ -12,7 +12,10 @@ function get_page_title() {
     $title = preg_replace("/\n/","",$title);
     $title = "<title>" . $title  . "</title>\n";
   } else {
-    $title = "<title>" . get_the_title($post->ID) . "</title>\n";
+    $title = '';
+    if (!empty($post->ID)) {
+      $title = "<title>" . get_the_title($post->ID) . "</title>\n";
+    }
   }
   return $title;
 }
@@ -32,8 +35,9 @@ function get_meta_description()
     $the_excerpt = preg_replace("/\n/","",$the_excerpt);
     $the_excerpt = "<meta name=\"description\" content=\"Here are my posts in the category '" . $the_excerpt  . "'\">\n";
   } else {
-    $the_post = get_post($post->ID); 
-    $the_excerpt = "<meta name=\"description\" content=\"" . $the_post->post_excerpt . "\">\n";
+    $the_post = empty($post->ID) ? null : get_post($post->ID); 
+    $the_post_excerpt = empty($the_post->post_excerpt) ? '' : $the_post->post_excerpt;
+    $the_excerpt = "<meta name=\"description\" content=\"" . $the_post_excerpt . "\">\n";
   }
 
    return $the_excerpt; 

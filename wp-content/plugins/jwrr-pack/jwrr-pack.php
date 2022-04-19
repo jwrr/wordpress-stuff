@@ -20,6 +20,7 @@ include_once("inc/jwrr-mailchimp-bar.php");
 include_once("inc/jwrr-nav.php");
 include_once("inc/jwrr-random-banner.php");
 include_once("inc/jwrr-search-form.php");
+include_once("inc/jwrr-sendfile.php");
 include_once("inc/jwrr-show-images.php");
 include_once("inc/jwrr-signup.php");
 include_once("inc/jwrr-social.php");
