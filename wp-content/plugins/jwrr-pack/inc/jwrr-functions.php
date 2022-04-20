@@ -194,7 +194,8 @@ function jwrr_parse_img_path($img='')
   $chunks = explode('/', $img);
   $artist_username = jwrr_clean_lower($chunks[1]);
   $art_title = jwrr_clean_lower($chunks[2]);
-  $artist_fullname = jwrr_get_fullname($artist_username);
+  $artist_fullname = ucwords(str_replace('-', ' ', $artist_username));
+
   if ($artist_fullname == '') $artist_fullname = $artist_username;
   $a = ['username' => $artist_username, 'title' => $art_title , 'fullname' => $artist_fullname];
   return $a;

@@ -120,7 +120,8 @@ function jwrr_upload_handler()
   if (!jwrr_is_logged_in()) return "";
   if (!isset($_POST["submit"])) return "";
 
-  $username = jwrr_get_username();
+//  $username = jwrr_get_username();
+  $username = strtolower(str_replace(' ', '-', jwrr_get_fullname()));
 
   $orig_dir = "art/$username/orig/";
   $success = jwrr_mkdir($orig_dir);
