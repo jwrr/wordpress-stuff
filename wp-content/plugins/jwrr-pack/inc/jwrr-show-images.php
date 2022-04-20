@@ -86,7 +86,7 @@ function jwrr_show_images($img='')
   }  
   
   $buy_platform = "Zazzle";
-  $buy_platform_icon = "/wp-content/plugins/jwrr-social/images/zazzle.png";
+  $buy_platform_icon = "/wp-content/themes/catartists1/images/zazzle.png";
   $buy_url = "https://www.zazzle.com/store/rachel_armington_art/products?cg=196759976565079751";
 
   $copyright = jwrr_copyright("2022", $artist_fullname);
