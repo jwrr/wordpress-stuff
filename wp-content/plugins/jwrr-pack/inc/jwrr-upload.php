@@ -117,11 +117,13 @@ add_shortcode('jwrr_upload_handler', 'jwrr_upload_handler');
 
 function jwrr_upload_handler()
 {
+
   if (!jwrr_is_logged_in()) return "";
   if (!isset($_POST["submit"])) return "";
 
 //  $username = jwrr_get_username();
   $username = strtolower(str_replace(' ', '-', jwrr_get_fullname()));
+echo "000000000 $username";
 
   $orig_dir = "art/$username/orig/";
   $success = jwrr_mkdir($orig_dir);
@@ -134,10 +136,12 @@ function jwrr_upload_handler()
   $orig_basename = basename($upload_filename);
   $orig_full_filename = $orig_dir . $orig_basename;
   $upload_good = 1;
+echo "22222 $upload_good 3333";
   $upload_filetype = strtolower(pathinfo($orig_full_filename,PATHINFO_EXTENSION));
-
+echo "444 $upload_filetype 5555";
   $msg = "";
   $check = getimagesize($_FILES["upload_filename"]["tmp_name"]);
+echo "666 after getimagesize 777";
   if($check !== false) {
     $upload_good = 1;
   } else {
@@ -165,12 +169,17 @@ function jwrr_upload_handler()
     $upload_good = 0;
   }
 
+echo "12345";
+
   // Check if $upload_good is set to 0 by an error
   if ($upload_good == 0) {
+echo "66666";
     $msg .= "Sorry, your file was not uploaded. ";
   // if everything is ok, try to upload file
   } else {
+echo "77777";
     if (move_uploaded_file($_FILES["upload_filename"]["tmp_name"], $orig_full_filename)) {
+echo "88888";
        $small_dir = "art/$username/small";
        $big_dir = "art/$username/big";
        jwrr_mkdir($small_dir);

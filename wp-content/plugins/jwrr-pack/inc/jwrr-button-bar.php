@@ -23,7 +23,7 @@ function jwrr_button_bar($atts = array(), $content = null, $tag = '')
 #theme_main {position:static;}
 .jwrr_button_bar {position:static; width:100%; min-height: 3.3em; background-color:black; color:white; max-width:100%; text-align: center;}
 .jwrr_button_bar span {margin:0; padding:0; font-size:1.6em; }
-.jwrr_button {font-size:1.3em;border-radius:10px;padding:0.5em 0.4em 0.5em 0.4em;margin: 3px 0.2em 0 3px;background-color:green;color:white;text-decoration: none; width: 3.4em; overflow: hidden; white-space: nowrap; }
+.jwrr_button {font-size:1.3em;border-radius:10px;padding:0.5em 0.2em 0.5em 0.2em;margin: 3px 0.15em 0 3px;background-color:green;color:white;text-decoration: none; width: 3.4em; overflow: hidden; white-space: nowrap; }
 a.jwrr_button:link {color: white; text-decoration: none;}
 a.jwrr_button:visited {color: white; text-decoration: none;}
 .right {float: right;}

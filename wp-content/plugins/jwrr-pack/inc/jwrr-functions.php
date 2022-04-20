@@ -22,6 +22,12 @@ function remove_admin_bar() {
 }
 
 
+function jwrr_clean($string)
+{
+  return preg_replace('/[^\w-]/u', '', $string);
+}
+
+
 function jwrr_clean_lower($string)
 {
   return strtolower(preg_replace('/[^\w-]/u', '', $string));
@@ -193,7 +199,7 @@ function jwrr_parse_img_path($img='')
   $img = rtrim($img,"/");
   $chunks = explode('/', $img);
   $artist_username = jwrr_clean_lower($chunks[1]);
-  $art_title = jwrr_clean_lower($chunks[2]);
+  $art_title = jwrr_clean($chunks[2]);
   $artist_fullname = ucwords(str_replace('-', ' ', $artist_username));
 
   if ($artist_fullname == '') $artist_fullname = $artist_username;
