@@ -35,13 +35,16 @@ a.jwrr_button:visited {color: white; text-decoration: none;}
 
   $user = _wp_get_current_user();
   $is_logged_in = $user->exists();
-  
+
+// <a class="jwrr_button right" href="/index.php/signup">$firstname</a>
+
   $buttons = "";
   if ($is_logged_in) {
     $username =  ucwords($user->user_login);
     $firstname = ucwords(jwrr_get_firstname());
+    $fullname_with_dash = jwrr_get_fullname('', '-');
     $buttons .= <<<HEREDOC_LOGGED_IN
-   <a class="jwrr_button right" href="/index.php/signup">$firstname</a>
+   <a class="jwrr_button right" href="/index.php/show/$fullname_with_dash">$firstname</a>
    <a class="jwrr_button right" href="/index.php/signin?action=logout">Sign Out</a>
    <a class="jwrr_button left" href="/index.php/upload">Upload</a>
 HEREDOC_LOGGED_IN;
@@ -77,4 +80,31 @@ $style
 HEREDOC;
 	return $html;
 }
+
+
+  function jwrr_buybar($buy_platform, $buy_platform_icon, $buy_url)
+  {
+    $logged_in_artist_fullname_with_dash = jwrr_get_fullname('', '-');
+    $request_uri = ($_SERVER['REQUEST_URI']);
+    $is_owner = str_contains($request_uri, "/$logged_in_artist_fullname_with_dash/");
+    $delete_button = '';
+    if ($is_owner && !str_contains($request_uri, '/delete/')) {
+      $delete_uri = $request_uri . 'delete';
+      $delete_button = "<a class=\"jwrr_button left\" style=\"background-color: red; width:5em; padding:1em;\" href=\"$delete_uri\">Delete Page</a>\n";
+    }
+    $html = <<<HEREDOC
+    <div class="jwrr_buybar">
+      <hr>
+      </div>
+      $delete_button
+      <div class="jwrr_buyitem">
+        <a href="$buy_url"><img src="$buy_platform_icon"></a>
+        <div><a href="$buy_url">Available on $buy_platform</a></div>
+      </div>
+      <hr>
+    </div>
+HEREDOC;
+  return $html;
+  }
+
 

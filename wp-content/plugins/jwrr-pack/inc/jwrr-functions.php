@@ -117,11 +117,14 @@ function jwrr_get_lastname($username='')
 }
 
 
-function jwrr_get_fullname($username='')
+function jwrr_get_fullname($username='', $sep=' ')
 {
   $firstname = jwrr_get_firstname($username);
   $lastname =  jwrr_get_lastname($username);
-  $fullname = trim("$firstname $lastname");
+  $fullname = trim("$firstname$sep$lastname");
+  if ($sep == '-') {
+    $fullname = strtolower($fullname);
+  }
   return $fullname;
 } 
  
@@ -200,10 +203,11 @@ function jwrr_parse_img_path($img='')
   $chunks = explode('/', $img);
   $artist_username = jwrr_clean_lower($chunks[1]);
   $art_title = jwrr_clean($chunks[2]);
+  $art_delete = (!empty($chunks[3]) && $chunks[3] == "delete") ? 'delete' : '';
   $artist_fullname = ucwords(str_replace('-', ' ', $artist_username));
 
   if ($artist_fullname == '') $artist_fullname = $artist_username;
-  $a = ['username' => $artist_username, 'title' => $art_title , 'fullname' => $artist_fullname];
+  $a = ['username' => $artist_username, 'title' => $art_title , 'fullname' => $artist_fullname, 'delete' => $art_delete];
   return $a;
 }
 

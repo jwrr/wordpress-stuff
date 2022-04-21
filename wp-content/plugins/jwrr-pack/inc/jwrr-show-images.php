@@ -21,30 +21,24 @@ HEREDOC;
   return $html;
   }
 
-  function jwrr_buybar($buy_platform, $buy_platform_icon, $buy_url)
+  function jwrr_get_newest_artwork($artist_name)
   {
-    $html = <<<HEREDOC
-    <div class="jwrr_buybar">
-      <hr>
-      <div class="jwrr_buyitem">
-        <a href="$buy_url"><img src="$buy_platform_icon"></a>
-        <div><a href="$buy_url">Available on $buy_platform</a></div>
-      </div>
-      <hr>
-    </div>
-HEREDOC;
-  return $html;
+    $doc_root = $_SERVER["DOCUMENT_ROOT"];
+    $path = "$doc_root/art/$artist_name/small/*.jpg";
+    $images = glob($path);
+    if (count($images) == 0) return '';
+    usort( $images, function( $a, $b ) { return filemtime($b) - filemtime($a); } );
+    $newest_artwork = basename($images[0]);
+    return $newest_artwork;
   }
-
 
   function jwrr_get_art_by_artist($artist_name, $copyright, $msg='', $min_count=0)
   {
     $doc_root = $_SERVER["DOCUMENT_ROOT"];
     $path = "$doc_root/art/$artist_name/small/*.jpg";
     $images = glob($path);
-    
     if (count($images) <= $min_count) return '';
-    
+    usort( $images, function( $a, $b ) { return filemtime($b) - filemtime($a); } );
 
     $html = "$msg
     <div class='gallery'>";
@@ -67,17 +61,40 @@ function jwrr_show_images($img='')
 {
   $enable_style = true;
   $a = jwrr_parse_img_path($img);
-  $artist_username = $a['username'];
+  $artist_fullname_with_dash = $a['username'];
   $art_title = $a['title'];
-  $artist_fullname = $a['fullname'];
+  $artist_fullname_with_space = $a['fullname'];
+  $logged_in_artist_fullname_with_dash = jwrr_get_fullname('', '-');
+  $request_uri = ($_SERVER['REQUEST_URI']);
+  $is_owner = ($logged_in_artist_fullname_with_dash == $artist_fullname_with_dash);
+  $art_delete = $is_owner ? $a['delete'] : '';
+  
+  $big_image_url = "/art/$artist_fullname_with_dash/big/$art_title.jpg";
+  $small_image_url = "/art/$artist_fullname_with_dash/small/$art_title.jpg";
 
-  $big_image_url = "/art/$artist_username/big/$art_title.jpg";
   $big_image_path = $_SERVER['DOCUMENT_ROOT'] . $big_image_url;
+  $small_image_path = $_SERVER['DOCUMENT_ROOT'] . $small_image_url;
   $big_image_exists = file_exists($big_image_path);
   $img_html = '';
   $some_more = "some";
+  $html = '';
   if ($big_image_exists) {
-//     /art/rachel/big/angel-cat-urn-kitten-wings.jpg
+    if ($art_delete == 'delete') {
+      unlink($big_image_path);
+      unlink($small_image_path);
+      $html .= "<h2>Page '$art_title' deleted</h2>";
+    } else if ($is_owner) {
+      touch($big_image_path);
+      touch($small_image_path);
+    }
+  } else {
+    $artists_latest_artwork = jwrr_get_newest_artwork($artist_fullname_with_dash);
+    $big_image_url = "/art/$artist_fullname_with_dash/big/$artists_latest_artwork";
+    $big_image_path = $_SERVER['DOCUMENT_ROOT'] . $big_image_url;
+    $big_image_exists = file_exists($big_image_path);
+  }
+  
+  if ($big_image_exists) {
     $big_image_url = str_replace('/art/', '', $big_image_url);
     $big_image_url = str_replace('/big/', '/', $big_image_url);
     $big_image_url = str_replace('.jpg', '', $big_image_url);
@@ -89,12 +106,14 @@ function jwrr_show_images($img='')
   $buy_platform_icon = "/wp-content/themes/catartists1/images/zazzle.png";
   $buy_url = "https://www.zazzle.com/store/rachel_armington_art/products?cg=196759976565079751";
 
-  $copyright = jwrr_copyright("2022", $artist_fullname);
+  $copyright = jwrr_copyright("2022", $artist_fullname_with_space);
   $buybar = jwrr_buybar($buy_platform, $buy_platform_icon, $buy_url);
 
-  $more_art_by_artist = jwrr_get_art_by_artist($artist_username, $copyright, "<h2>Here is $some_more of my art</h2>", 0);
+  $big_image_html = ($art_delete=='delete') ? '' : "$buybar $img_html $copyright";
 
-  $html = "
+  $more_art_by_artist_html = jwrr_get_art_by_artist($artist_fullname_with_dash, $copyright, "<h2>Here is $some_more of my art</h2>", 0);
+
+  $html .= "
 
 <!-- jwrr_show_images -->";
 
@@ -120,12 +139,10 @@ HEREDOC_STYLE;
 
   $html .= <<<HEREDOC_DIV
   <div class="jwrr_show_images_main">
-    $buybar
-    $img_html
-    $copyright
+    $big_image_html
     <hr>
 
-    $more_art_by_artist
+    $more_art_by_artist_html
 
   </div>
 

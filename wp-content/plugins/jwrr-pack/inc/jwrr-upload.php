@@ -122,9 +122,7 @@ function jwrr_upload_handler()
   if (!isset($_POST["submit"])) return "";
 
 //  $username = jwrr_get_username();
-  $username = strtolower(str_replace(' ', '-', jwrr_get_fullname()));
-echo "000000000 $username";
-
+  $username = jwrr_get_fullname('', '-');
   $orig_dir = "art/$username/orig/";
   $success = jwrr_mkdir($orig_dir);
 
@@ -133,15 +131,12 @@ echo "000000000 $username";
 
   $upload_filename = htmlspecialchars($_FILES["upload_filename"]["name"]);
   $upload_filename = str_replace(' ', '-', $upload_filename);
-  $orig_basename = basename($upload_filename);
+  $orig_basename = jwrr_clean_lower(basename($upload_filename));
   $orig_full_filename = $orig_dir . $orig_basename;
   $upload_good = 1;
-echo "22222 $upload_good 3333";
   $upload_filetype = strtolower(pathinfo($orig_full_filename,PATHINFO_EXTENSION));
-echo "444 $upload_filetype 5555";
   $msg = "";
   $check = getimagesize($_FILES["upload_filename"]["tmp_name"]);
-echo "666 after getimagesize 777";
   if($check !== false) {
     $upload_good = 1;
   } else {
@@ -169,27 +164,23 @@ echo "666 after getimagesize 777";
     $upload_good = 0;
   }
 
-echo "12345";
-
   // Check if $upload_good is set to 0 by an error
   if ($upload_good == 0) {
-echo "66666";
     $msg .= "Sorry, your file was not uploaded. ";
   // if everything is ok, try to upload file
   } else {
-echo "77777";
     if (move_uploaded_file($_FILES["upload_filename"]["tmp_name"], $orig_full_filename)) {
-echo "88888";
        $small_dir = "art/$username/small";
        $big_dir = "art/$username/big";
        jwrr_mkdir($small_dir);
        jwrr_mkdir($big_dir);
        // mogrify -resize x440 -quality 100 -path small *.jpg
-       exec("mogrify -resize x440 -quality 75 -path $small_dir $orig_full_filename", $exec_output, $exec_retval);
-       exec("mogrify -resize 1024x -quality 75 -path $big_dir $orig_full_filename", $exec_output, $exec_retval);
+       exec("mogrify -strip -resize x440 -quality 75 -path $small_dir $orig_full_filename", $exec_output, $exec_retval);
+       exec("mogrify -strip -resize 1024x -quality 75 -path $big_dir $orig_full_filename", $exec_output, $exec_retval);
 
 $fullname = jwrr_get_fullname();
 $big_filename = $big_dir . '/' . basename($orig_full_filename);
+$small_filename = $small_dir . '/' . basename($orig_full_filename);
 
 $watermark = <<<HEREDOC_WATERMARK1
 convert -size 600x200 xc:none -pointsize 25 -font Helvetica-BoldOblique  \
@@ -197,12 +188,34 @@ convert -size 600x200 xc:none -pointsize 25 -font Helvetica-BoldOblique  \
 -fill "#0883" -gravity Center -draw "text 1,1 '$fullname'" \
 -fill "#8083" -gravity SouthEast -draw "text 50,25 '$fullname'" \
 -background none -rotate -10  miff:- | \
-composite -tile - $big_filename $big_filename
+composite -tile - $big_filename -quality 65 $big_filename
 HEREDOC_WATERMARK1;
-       exec($watermark, $exec_output, $exec_retval);
+exec($watermark, $exec_output, $exec_retval);
+
+// $watermark = <<<HEREDOC_WATERMARK1SMALL
+// convert -size 350x200 xc:none -pointsize 20 -font Helvetica-BoldOblique  \
+// -fill "#8003" -gravity NorthWest -draw "text 0,0 '$fullname'" \
+// -fill "#0803" -gravity Center -draw "text 0,0 '$fullname'" \
+// -fill "#0083" -gravity SouthEast -draw "text 0,0 '$fullname'" \
+// -background "#8888" -rotate -10  miff:- | \
+// composite -tile - $small_filename -quality 65 $small_filename
+// HEREDOC_WATERMARK1SMALL;
+// exec($watermark, $exec_output, $exec_retval);
+
+
+$watermark = <<<HEREDOC_WATERMARK1SMALL
+convert -size 350x200 xc:none -pointsize 20 -font Helvetica-BoldOblique  \
+-fill "#8003" -gravity NorthWest -draw "text 0,0 '$fullname'" \
+-fill "#0803" -gravity Center -draw "text 0,0 '$fullname'" \
+-fill "#0083" -gravity SouthEast -draw "text 0,0 '$fullname'" \
+-background none -rotate -10  miff:- | \
+composite -tile - $small_filename -quality 65 $small_filename
+HEREDOC_WATERMARK1SMALL;
+exec($watermark, $exec_output, $exec_retval);
+
 
 $watermark = <<<HEREDOC_WATERMARK2
-convert -size 1024x1304 xc:none -pointsize 60 -font Helvetica-BoldOblique -undercolor '#0006' \
+convert -size 1024x100 xc:none -pointsize 60 -font Helvetica-BoldOblique -undercolor '#0006' \
 -fill "#fff6" -gravity North -annotate 0 '.                        $fullname                        .' \
  miff:- | composite - $big_filename $big_filename
 HEREDOC_WATERMARK2;
