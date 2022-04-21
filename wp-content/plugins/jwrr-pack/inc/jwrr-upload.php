@@ -13,11 +13,20 @@ add_shortcode('jwrr_upload_form', 'jwrr_upload_form');
 
 function jwrr_upload_form($atts = array(), $content = null, $tag = '')
 {
-
+  $MAX_IMAGES = 10;
   $upload_handler = "/upload-handler";
   $enable_style = true;
   $please_log_in_msg = "Please Log In";
   $select_file_msg = "Select file to upload";
+
+  $artist_fullname_with_dash = jwrr_get_fullname('', '-');
+  $big_image_folder = $_SERVER['DOCUMENT_ROOT'] . "/art/$artist_fullname_with_dash/big/";
+  $num_images = count(glob("$big_image_folder/*jpg"));
+  $limit_reached = $num_images >= $MAX_IMAGES;
+  if ($limit_reached) {
+    $html = "<h2 style='color:red;'>Congratulations! You have reached the Max File Quota</h2><div>You can't upload more files until we increase the quota or you delete some artwork.";
+    return $html;
+  }
 
   $html = "
 
