@@ -18,10 +18,7 @@ function jwrr_upload_form($atts = array(), $content = null, $tag = '')
   $enable_style = true;
   $please_log_in_msg = "Please Log In";
   $select_file_msg = "Select file to upload";
-
-  $artist_fullname_with_dash = jwrr_get_fullname('', '-');
-  $big_image_folder = $_SERVER['DOCUMENT_ROOT'] . "/art/$artist_fullname_with_dash/big/";
-  $num_images = count(glob("$big_image_folder/*jpg"));
+  $num_images = jwrr_count_images();
   $limit_reached = $num_images >= $MAX_IMAGES;
   if ($limit_reached) {
     $html = "<h2 style='color:red;'>Congratulations! You have reached the Max File Quota</h2><div>You can't upload more files until we increase the quota or you delete some artwork.";
@@ -140,7 +137,7 @@ function jwrr_upload_handler()
 
   $upload_filename = htmlspecialchars($_FILES["upload_filename"]["name"]);
   $upload_filename = str_replace(' ', '-', $upload_filename);
-  $orig_basename = jwrr_clean_lower(basename($upload_filename));
+  $orig_basename = jwrr_clean_filename_lower(basename($upload_filename));
   $orig_full_filename = $orig_dir . $orig_basename;
   $upload_good = 1;
   $upload_filetype = strtolower(pathinfo($orig_full_filename,PATHINFO_EXTENSION));
@@ -158,7 +155,6 @@ function jwrr_upload_handler()
     $msg .=  "Sorry, the file already exists. ";
     $upload_good = 0;
   }
-
   $max_file_size = 10000000;
 
   // Check file size
@@ -173,9 +169,11 @@ function jwrr_upload_handler()
     $upload_good = 0;
   }
 
+
   // Check if $upload_good is set to 0 by an error
   if ($upload_good == 0) {
     $msg .= "Sorry, your file was not uploaded. ";
+echo $msg;
   // if everything is ok, try to upload file
   } else {
     if (move_uploaded_file($_FILES["upload_filename"]["tmp_name"], $orig_full_filename)) {
@@ -187,7 +185,7 @@ function jwrr_upload_handler()
        exec("mogrify -strip -resize x440 -quality 75 -path $small_dir $orig_full_filename", $exec_output, $exec_retval);
        exec("mogrify -strip -resize 1024x -quality 75 -path $big_dir $orig_full_filename", $exec_output, $exec_retval);
 
-$fullname = jwrr_get_fullname();
+$fullname = ucwords(jwrr_get_fullname());
 $big_filename = $big_dir . '/' . basename($orig_full_filename);
 $small_filename = $small_dir . '/' . basename($orig_full_filename);
 

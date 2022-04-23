@@ -249,16 +249,23 @@ function jwrr_signup_update_database() {
   if (jwrr_is_logged_in()) {
     $new_userdata['ID'] = jwrr_get_userid();
     $userid = wp_update_user($new_userdata);
+    $success = !is_wp_error($userid);
     echo '<div class="jwrr-success"><strong>Success! </strong<strong>Your info has been updated.</a></div>';
-   } else {
-     $userid = wp_insert_user($new_userdata);
-     echo '<div class="jwrr-success"><strong>Success! </strong<strong>You can now <a href="/signin">Sign In</a></div>';
-   }
+  } else {
+    $userid = wp_insert_user($new_userdata);
+    $success = !is_wp_error($userid);
+    if ($success) {
+      echo '<div class="jwrr-success"><strong>Success! </strong>You can now <a href="/signin">Sign In</a></div>';
+    } else {
+      echo '<div class="jwrr-error"><strong>Sorry! </strong>We could not create your account</div>';
+    }
+  }
 
 // if (!enmpty($social1)) add_user_meta( $user->ID, 'jwrr_social1', $social1);
 // if (!enmpty($social2)) add_user_meta( $user->ID, 'jwrr_social2', $social2);
 // if (!enmpty($social3)) add_user_meta( $user->ID, 'jwrr_social3', $social3);
 
+  return $success;
 }
 
 
@@ -277,6 +284,7 @@ function jwrr_signup_wrapper() {
 //     $_POST['social3']
     );
         
+    $success = false;
     if (!$validation_error) {
       // sanitize user form input
       global $username, $password, $email, $website, $first_name, $last_name, $bio, $social1, $social2, $social3;
@@ -291,7 +299,7 @@ function jwrr_signup_wrapper() {
 //    $social2    =   esc_url( $_POST['social2'] );
 //    $social3    =   esc_url( $_POST['social3'] );
 
-      jwrr_signup_update_database(
+      $success = jwrr_signup_update_database(
         $username,
         $password,
         $email,

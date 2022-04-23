@@ -12,7 +12,6 @@
 add_shortcode('jwrr_show_images', 'jwrr_show_images');
 
 
-
   function jwrr_copyright($year, $fullname, $type="")
   {
     $html = <<<HEREDOC
@@ -91,7 +90,7 @@ function jwrr_show_images($img='')
     $artists_latest_artwork = jwrr_get_newest_artwork($artist_fullname_with_dash);
     $big_image_url = "/art/$artist_fullname_with_dash/big/$artists_latest_artwork";
     $big_image_path = $_SERVER['DOCUMENT_ROOT'] . $big_image_url;
-    $big_image_exists = file_exists($big_image_path);
+    $big_image_exists = file_exists($big_image_path) && (str_ends_with($big_image_path, '.jpg'));
   }
   
   if ($big_image_exists) {
@@ -103,7 +102,8 @@ function jwrr_show_images($img='')
   }  
   
   $buy_platform = "Zazzle";
-  $buy_platform_icon = "/wp-content/themes/catartists1/images/zazzle.png";
+  // ln -s wp-content/themes/catartists1 catartists1
+  $buy_platform_icon = "/catartists1/images/zazzle.png";
   $buy_url = "https://www.zazzle.com/store/rachel_armington_art/products?cg=196759976565079751";
 
   $copyright = jwrr_copyright("2022", $artist_fullname_with_space);

@@ -28,6 +28,12 @@ function jwrr_clean($string)
 }
 
 
+function jwrr_clean_filename_lower($string)
+{
+  return strtolower(preg_replace('/[^\w.-]/u', '', $string));
+}
+
+
 function jwrr_clean_lower($string)
 {
   return strtolower(preg_replace('/[^\w-]/u', '', $string));
@@ -201,8 +207,8 @@ function jwrr_parse_img_path($img='')
   $img = htmlspecialchars($img);
   $img = rtrim($img,"/");
   $chunks = explode('/', $img);
-  $artist_username = jwrr_clean_lower($chunks[1]);
-  $art_title = jwrr_clean($chunks[2]);
+  $artist_username = empty($chunks[1]) ? '' : jwrr_clean_lower($chunks[1]);
+  $art_title = empty($chunks[2]) ? '' : jwrr_clean($chunks[2]);
   $art_delete = (!empty($chunks[3]) && $chunks[3] == "delete") ? 'delete' : '';
   $artist_fullname = ucwords(str_replace('-', ' ', $artist_username));
 
@@ -211,5 +217,13 @@ function jwrr_parse_img_path($img='')
   return $a;
 }
 
+
+function jwrr_count_images()
+{
+  $artist_fullname_with_dash = jwrr_get_fullname('', '-');
+  $big_image_folder = $_SERVER['DOCUMENT_ROOT'] . "/art/$artist_fullname_with_dash/big/";
+  $num_images = count(glob("$big_image_folder/*jpg"));
+  return $num_images;
+}
 
 

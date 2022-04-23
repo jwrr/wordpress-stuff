@@ -52,9 +52,10 @@ function get_meta_description()
 <?php if (is_home()) { ?>
 <meta name="google-site-verification" content="V9Biutd_23Geeq4Vc82o0XlBTf5O7dtEg2ZhqVb28LM" />
 <?php } ?>
-<?php echo get_page_title() ?>
-<?php echo get_meta_description() ?>
-<link rel="stylesheet" href="<?php bloginfo('template_directory'); ?>/style.css" />
-<?php wp_head(); ?>
+<?php echo get_page_title();
+//<link rel="stylesheet" href="<?php bloginfo('template_directory'); /style.css"
+?>
+<link rel="stylesheet" href="/catartists1/style.css" />
+<?php // wp_head(); ?>
 </head>
 <body>
