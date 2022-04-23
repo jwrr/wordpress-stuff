@@ -12,7 +12,6 @@ a:link    {color:#777777; text-decoration:underline;}
 a:visited {color:#999999; text-decoration:underline;}
 
 
-#theme_outer {position:relative;width:100%;max-width:1200px;margin: 0 auto 0 auto;padding:0 0 0 0;font-family:Estrangelo Edessa;color:#333333;} /* 660099;} */
 #theme_inner{text-align: center;}
 #jwrr_social_top {position:absolute;left:70px;height:70px;width:100%;margin: 0 0 0 0;padding 0 0 0 0;}
 #jwrr_social_top > ul {margin:0 0 0 0;padding: 0 0 0 0;list-style-type:none;position:fixed;width:100%;}
@@ -22,15 +21,15 @@ a:visited {color:#999999; text-decoration:underline;}
 #jwrr_social_left > ul > li {display: inline;}
 #jwrr_social_h {margin:0 0 0 0; padding: 0 0 20px 10px;position:fixed;}
 
-#jwrr_banner {padding:0 0 0 0; width:100%; height:420px; overflow:clip; overflow-clip-margin: 0px; transition: transform 1s;border-radius:15px;}
-#jwrr_banner:hover {height:auto;}
+#css-banner {padding:0 0 0 0; width:100%; height:420px; overflow:clip; overflow-clip-margin: 0px; transition: transform 1s;border-radius:15px;}
+#css-banner:hover {height:auto;}
 #jwrr_nobanner {padding:0 0 0 0; width:100%;height:75px;}
 
 #theme_breadcrumbs {margin:0 0 0 0;padding:0 0 0 0;font-size:1.2em;}
 #theme_breadcrumbs > li {display:inline;}
 #theme_h1 {text-align:center;padding:0 0 0.3em 0;margin:0 0 0 0;}
 
-#theme_main {position:absolute;left:70px;margin: 0 0 0 0;padding:0 0 0 0;width:100%}
+#css-main {position:absolute;left:70px;margin: 0 0 0 0;padding:0 0 0 0;width:100%}
 .ddmb {position:relative;}
 .ddmb > li {background-color:rgba(51,102,153,0.5);font-size:1.5em;}
 .ddmb > li > ul > li {font-size:1.5em;padding:0.5em 0 0.5em 0.5em;margin:0.5em 0 0.5em 0;}
@@ -53,7 +52,7 @@ li.theme_tags:hover > ul {display:block;}
 li.theme_tags > .theme_hidden {font-weight:bold;}
 li.theme_tags:hover > .theme_hidden {display:none;}
 
-#theme_content {float:right;width:82%;margin:0 0 0 0;padding:0 0 0 0;}
+#css-content {float:right;width:82%;margin:0 0 0 0;padding:0 0 0 0;}
 .theme_the_post {background-color:#fff;margin:0 0 1em 0;padding:0 1% 0em 1%;border:solid;border-width:1px;border-radius:15px;}
 .theme_the_title {font-size:2.1em;margin:0.2em 0 0.2em 0.4em; padding:0 0 0 0;}
 h2.theme_the_title {font-size:2.1em;margin:0em 0 0.2em 0.4em; padding:0 0 0 0;}

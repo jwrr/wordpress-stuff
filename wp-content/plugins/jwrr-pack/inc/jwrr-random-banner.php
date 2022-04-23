@@ -24,7 +24,7 @@ function jwrr_random_banner()
 		$slug = 'home';
 		$banner_path = "$upload_path/$slug$banner_suffix";
 	}	
-	$html = "\n<!-- plugin: jwrr_random_banner -->\n";
+	$html = "\n<!-- random_banner -->\n";
 	if (file_exists($banner_path)) {
 		$banner_glob_array = glob("$upload_path/$slug$banner_suffix");
 		$cnt = count($banner_glob_array);
@@ -33,7 +33,7 @@ function jwrr_random_banner()
 		// ln -s wp-content/uploads catartists-images
 		$banner_name = '/catartists-images/' . basename($banner_glob_array[$i]);
 		$banner_url = $upload_url . '/' . basename($banner_glob_array[$i]);
-		$html .= "<div id=\"jwrr_banner\"><img style=\"max-width:98%\" src=\"$banner_name\" alt=\"banner\"></div>\n\n";
+		$html .= "<div id=\"css-banner\"><img src=\"$banner_name\" alt=\"banner\"></div>\n\n";
 	}
 	if ($enable_echo) echo $html;
 	return $html;

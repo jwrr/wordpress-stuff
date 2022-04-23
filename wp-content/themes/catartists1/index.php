@@ -36,15 +36,9 @@ if (wp_is_mobile()) {
 ";
 }
 
-echo "<style >
-#jwrr_banner {margin: 0 0 1em 0;}
-#theme_content {width:100%;float:none;}
-</style>
-";
-
-echo "<div id='theme_outer'>\n";
+echo "<div id='css-outer'>\n";
 echo do_shortcode( '[jwrr_button_bar]' );
-echo " <div id='theme_main'>\n";
+echo " <div id='css-main'>\n";
   
 if (is_front_page()) {  
 //   echo do_shortcode( '[jwrr-ddmb]' );
@@ -62,11 +56,11 @@ if (is_front_page()) {
   get_the_posts();
 }
 
-echo " </div> <!-- theme_main -->\n";
+echo " </div> <!-- css-main -->\n";
 // if (is_front_page()) {
 //   echo do_shortcode( '[jwrr-social]' );
 // }
-echo "</div> <!-- theme_outer  -->\n";
+echo "</div> <!-- css-outer  -->\n";
 
 get_footer();
 

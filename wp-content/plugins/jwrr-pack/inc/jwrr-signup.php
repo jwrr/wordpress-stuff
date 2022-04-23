@@ -13,14 +13,20 @@
 function jwrr_signup_form( $username, $password, $email, $website, $first_name, $last_name, $bio) // $social1, $social2, $social3 )
 {
   $username_required = 'Must be lowercase letters or hyphen and at least 4 letters. For example: cat-artists';
-  $username_readonly = '';
+  $readonly = '';
   $password_required = 'Required';
   $submit_value = "Register";
+  $firstname_autofocus = ' autofocus ';
+  $email_autofocus = '';
+  $name_required_locked = 'Required';
   if (jwrr_is_logged_in()) {
-    $username_readonly = 'readonly="readonly"';
+    $readonly = 'readonly="readonly"';
     $username_required = 'Locked';
     $password_required = 'Leave blank if you do not want to change your password';
     $submit_value      = 'Update';
+    $firstname_autofocus = '';
+    $email_autofocus = ' autofocus ';
+  $name_required_locked = 'Locked';
 
     $userdata    = jwrr_get_userdata();
 //     $usermeta = jwrr_get_usermeta();
@@ -41,91 +47,56 @@ function jwrr_signup_form( $username, $password, $email, $website, $first_name, 
   $social2_placeholder = (empty($social2) || $social2=='') ? 'placeholder="pinterest.com/nikos"' : '';
   $social3_placeholder = (empty($social3) || $social3=='') ? 'placeholder="twitter.com/maurina"' : '';
 
-  echo '
-  <style>
-  div {
-      margin-bottom:2px;
-  }
-
-  input{
-      margin-bottom:4px;
-  }
-
-  input.jwrr_upload_form_file {color:white;background-color:green; padding:0.5em; font-size:1.5em; border-radius:10px; width:75%;}
-  div.jwrr_upload_form h2 {margin:0; padding:0;}
-  div.jwrr-upload-form-please-log-in {font-size: 2.0em; font-weight:bold;margin:1em;}
-
-    div.user-name-wrap {margin:1em;}
-    div.user-pass-wrap {margin:1em;}
-    div.jwrr-oneliner {padding: 1em 0 0 1em;}
-    div.jwrr-oneliner label {display:block; margin-left:0.5em;}
-    div.jwrr-oneliner input[type=submit] {display:block; margin-left:0em; background-color:green; color:white;}
-    div.jwrr-oneliner input {font-size:1.5em;border-color:gray;border-radius:10px;padding:0.3em;width:68%;}
-    div.jwrr-oneliner textarea {font-size:1.5em;border-color:gray;border-radius:10px;padding:0.3em;width:68%;}
-    div.jwrr-oneliner select {display:block; margin-left:0em; font-size:1.1em;border-color:gray;border-radius:10px;padding:0.3em;}
-    div.jwrr-checkboxes {display:block; margin-left:1.5em; font-size:1.5em;border-color:gray;border-radius:10px;padding:0.3em;}
-    div.jwrr-checkbox {display:inline; padding-right:3em;}
-    div.jwrr-checkbox input {width:2em; height: 2em;}
-    div.jwrr-error {color:red; font-size: 2em;margin-left:0.5em;}
-    div.jwrr-success {color:green; font-size: 2em;margin-left:0.5em;}
-  </style>
-';
-
     echo '
     <form action="' . $_SERVER['REQUEST_URI'] . '" method="post">
 
-    <div class="jwrr-oneliner">
-    <label for="username">Username (' , $username_required , ')</label>
-    <input type="text" name="username" value="' . $username . '" '  . $username_readonly . '>
+    <div class="css-oneliner">
+    <label for="fname">First Name (' . $name_required_locked . ')</label>
+    <input type="text" name="fname" value="' . $first_name . '" ' . $firstname_autofocus . $readonly . '>
     </div>
 
-    <div class="jwrr-oneliner">
+    <div class="css-oneliner">
+    <label for="lname">Last Name (' . $name_required_locked . ')</label>
+    <input type="text" name="lname" value="' . $last_name . '" ' . $readonly . '>
+    </div>
+
+    <div class="css-oneliner">
+    <label for="email">Email (Required). We need this to contact you. Your privacy is imporant and we don\'t share your info with anyone.</label>
+    <input type="text" name="email" value="' . $email . '"' . $email_autofocus  .'>
+    </div>
+
+    <div class="css-oneliner">
     <label for="password">Password (' . $password_required .  ') Passwords are encrypted so even we can\'t see what they are</label>
     <input type="password" name="password" value="' . $password .'">
     </div>
 
-    <div class="jwrr-oneliner">
-    <label for="email">Email (required). We need this to contact you. Your privacy is imporant and we don\'t share your info with anyone.</label>
-    <input type="text" name="email" value="' . $email . '" autofocus>
-    </div>
-
-    <div class="jwrr-oneliner">
-    <label for="fname">First Name (Optional)</label>
-    <input type="text" name="fname" value="' . $first_name . '">
-    </div>
-
-    <div class="jwrr-oneliner">
-    <label for="lname">Last Name (Optional)</label>
-    <input type="text" name="lname" value="' . $last_name . '">
-    </div>
-
-    <div class="jwrr-oneliner">
+    <div class="css-oneliner">
     <input type="submit" name="submit" value="' . $submit_value  . '"/>
     </div>
     </form>
     ';
 
-//     <div class="jwrr-oneliner">
+//     <div class="css-oneliner">
 //     <label for="website">Website (Optional)</label>
 //     <input type="text" name="website" ' . $website_placeholder . ' value="' . $website . '">
 //     </div>
 //
-//     <div class="jwrr-oneliner">
+//     <div class="css-oneliner">
 //     <label for="social1">Social such as Facebook, Instagram, Twitter... (Optional)</label>
 //     <input type="text" name="social1" ' . $social1_placeholder . ' value="' . $social1 . '">
 //     </div>
 //
-//     <div class="jwrr-oneliner">
+//     <div class="css-oneliner">
 //     <label for="social2">Another Social (Optional)</label>
 //     <input type="text" name="social2" ' . $social2_placeholder . ' value="' . $social2 . '">
 //     </div>
 //
-//     <div class="jwrr-oneliner">
+//     <div class="css-oneliner">
 //     <label for="social3">And maybe one more Social (Optional)</label>
 //     <input type="text" name="social3" ' . $social3_placeholder . ' value="' . $social3 . '">
 //     </div>
 //
-//     <div class="jwrr-oneliner">
+//     <div class="css-oneliner">
 //     <label for="bio">About / Bio  (Optional)</label>
 //     <textarea name="bio">' . $bio . '</textarea>
 //     </div>
@@ -228,13 +199,14 @@ function jwrr_signup_validation( $username, $password, $email, $website, $first_
 
   if (is_wp_error($reg_errors)) {
      foreach ($reg_errors->get_error_messages() as $error) {
-       echo '<div class="jwrr-error"><strong>ERROR</strong>: ' . $error . '</div>';
+       echo '<div class="css-error"><strong>ERROR</strong>: ' . $error . '</div>';
      }
   }
   return ($error_count > 0);
 }
 
 function jwrr_signup_update_database() {
+  $new_account_successfully_created = false;
   global $reg_errors, $username, $password, $email, $website, $first_name, $last_name, $bio;  // , $social1, $social2, $social3;
   $new_userdata = array(
     'user_login'    =>   $username,
@@ -249,15 +221,19 @@ function jwrr_signup_update_database() {
   if (jwrr_is_logged_in()) {
     $new_userdata['ID'] = jwrr_get_userid();
     $userid = wp_update_user($new_userdata);
-    $success = !is_wp_error($userid);
-    echo '<div class="jwrr-success"><strong>Success! </strong<strong>Your info has been updated.</a></div>';
+    $account_update_successful = !is_wp_error($userid);
+    if ($account_update_successful) {
+      echo '<div class="css-success"><strong>Success! </strong<strong>Your info has been updated.</a></div>';
+    } else {
+      echo '<div class="css-error"><strong>Sorry! </strong<strong>We could not update your info</a></div>';
+    }
   } else {
     $userid = wp_insert_user($new_userdata);
-    $success = !is_wp_error($userid);
-    if ($success) {
-      echo '<div class="jwrr-success"><strong>Success! </strong>You can now <a href="/signin">Sign In</a></div>';
+    $new_account_successfully_created = !is_wp_error($userid);
+    if ($new_account_successfully_created) {
+      echo '<div class="css-success"><strong>Success! </strong>You can now <a href="/signin">Sign In</a></div>';
     } else {
-      echo '<div class="jwrr-error"><strong>Sorry! </strong>We could not create your account</div>';
+      echo '<div class="css-error"><strong>Sorry! </strong>We could not create your account</div>';
     }
   }
 
@@ -265,12 +241,23 @@ function jwrr_signup_update_database() {
 // if (!enmpty($social2)) add_user_meta( $user->ID, 'jwrr_social2', $social2);
 // if (!enmpty($social3)) add_user_meta( $user->ID, 'jwrr_social3', $social3);
 
-  return $success;
+  return $new_account_successfully_created;
 }
 
 
 function jwrr_signup_wrapper() {
+  $new_account_successfully_created = false;
+  $_POST['fname']    = empty($_POST['fname']) ? '' : $_POST['fname'];
+  $_POST['lname']    = empty($_POST['lname']) ? '' : $_POST['lname'];
+  $_POST['username'] = strtolower($_POST['fname'] . '-' . $_POST['lname']);
+  $_POST['password'] = empty($_POST['password']) ? '' : $_POST['password'];
+  $_POST['email']    = empty($_POST['email'])    ? '' : $_POST['email'];
+  $_POST['website']  = empty($_POST['website'])  ? '' : $_POST['website'];
+  $_POST['bio']      = empty($_POST['bio'])      ? '' : $_POST['bio'];
+
   if (isset($_POST['submit'])) {
+    
+    
     $validation_error = jwrr_signup_validation(
        $_POST['username'],
        $_POST['password'],
@@ -284,7 +271,6 @@ function jwrr_signup_wrapper() {
 //     $_POST['social3']
     );
         
-    $success = false;
     if (!$validation_error) {
       // sanitize user form input
       global $username, $password, $email, $website, $first_name, $last_name, $bio, $social1, $social2, $social3;
@@ -299,7 +285,7 @@ function jwrr_signup_wrapper() {
 //    $social2    =   esc_url( $_POST['social2'] );
 //    $social3    =   esc_url( $_POST['social3'] );
 
-      $success = jwrr_signup_update_database(
+      $new_account_successfully_created = jwrr_signup_update_database(
         $username,
         $password,
         $email,
@@ -311,18 +297,24 @@ function jwrr_signup_wrapper() {
     }
   }
 
-  jwrr_signup_form(
-    $_POST['username'],
-    $_POST['password'],
-    $_POST['email'],
-    $_POST['website'],
-    $_POST['fname'],
-    $_POST['lname'],
-    $_POST['bio']
+  if (!$new_account_successfully_created) {
+  
+  
+    jwrr_signup_form(
+      $_POST['username'],
+      $_POST['password'],
+      $_POST['email'],
+      $_POST['website'],
+      $_POST['fname'],
+      $_POST['lname'],
+      $_POST['bio']
 //  $_POST['social1'],
 //  $_POST['social2'],
 //  $_POST['social3']
   );
+    
+  }
+
 
 }
 

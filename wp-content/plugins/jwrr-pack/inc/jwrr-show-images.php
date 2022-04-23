@@ -12,53 +12,9 @@
 add_shortcode('jwrr_show_images', 'jwrr_show_images');
 
 
-  function jwrr_copyright($year, $fullname, $type="")
-  {
-    $html = <<<HEREDOC
-    <div class="jwrr_copyright">&copy 2022 $fullname. All copyright and reproduction rights remain with the artist.</div>
-HEREDOC;
-  return $html;
-  }
-
-  function jwrr_get_newest_artwork($artist_name)
-  {
-    $doc_root = $_SERVER["DOCUMENT_ROOT"];
-    $path = "$doc_root/art/$artist_name/small/*.jpg";
-    $images = glob($path);
-    if (count($images) == 0) return '';
-    usort( $images, function( $a, $b ) { return filemtime($b) - filemtime($a); } );
-    $newest_artwork = basename($images[0]);
-    return $newest_artwork;
-  }
-
-  function jwrr_get_art_by_artist($artist_name, $copyright, $msg='', $min_count=0)
-  {
-    $doc_root = $_SERVER["DOCUMENT_ROOT"];
-    $path = "$doc_root/art/$artist_name/small/*.jpg";
-    $images = glob($path);
-    if (count($images) <= $min_count) return '';
-    usort( $images, function( $a, $b ) { return filemtime($b) - filemtime($a); } );
-
-    $html = "$msg
-    <div class='gallery'>";
-
-    foreach($images as $image)
-    {
-      $i = "/art/$artist_name/small/" . basename($image);
-      $b = str_replace("/art", "", $i);
-      $b = str_replace("/small", "", $b);
-      $b = str_replace(".jpg", "", $b);
-      $html .= "    <a href='/show$b'><img src='$i' class='small'></a>\n";
-    }
-    $html .= "   <div style='clear:both'></div>\n";
-    $html .= $copyright;
-    $html .= "  </div>\n";
-    return $html;
-  }
-
 function jwrr_show_images($img='')
 {
-  $enable_style = true;
+  $enable_style = false;
   $a = jwrr_parse_img_path($img);
   $artist_fullname_with_dash = $a['username'];
   $art_title = $a['title'];
@@ -97,7 +53,7 @@ function jwrr_show_images($img='')
     $big_image_url = str_replace('/art/', '', $big_image_url);
     $big_image_url = str_replace('/big/', '/', $big_image_url);
     $big_image_url = str_replace('.jpg', '', $big_image_url);
-    $img_html = '<img class="jwrr_main_image" src="/?catart=' . $big_image_url . '">';
+    $img_html = '<img class="css-main-image" src="/?catart=' . $big_image_url . '">';
     $some_more = "more";
   }  
   
@@ -115,7 +71,7 @@ function jwrr_show_images($img='')
 
   $html .= "
 
-<!-- jwrr_show_images -->";
+<!-- show_images -->";
 
   if ($enable_style) {
 
@@ -123,22 +79,22 @@ function jwrr_show_images($img='')
 
   <style>
     body {background-color: white;}
-    div.jwrr_show_images_main {max-width:1024px; margin: 0 auto;}
-    div.jwrr_copyright {text-align: center; font-size: 1.2em; margin: 0.5em;}
-    div.jwrr_buyitem {display: block; margin-left: auto; margin-right: auto; text-align:center;}
-    div.jwrr_buyitem img {display: block; margin-left: auto; margin-right: auto;}
-    div.jwrr_buyitem div {display: block; margin-left: auto; margin-right: auto;}
-    img.jwrr_main_image {display:block; margin-left:auto; margin-right:auto; max-width:98%;}
-    div.gallery {text-align: center;}
-    div.gallery img {display:inline;padding:0 0 0 0;margin: 0.5em 1em 0.5em 0.2em;border-radius:15px; height:200px; transition: transform 1s; max-width:100%;}
-    div.gallery img:hover {transform: scale(1.5);}
+    div.css-show-images-main {max-width:1024px; margin: 0 auto;}
+    div.css-copyright {text-align: center; font-size: 1.2em; margin: 0.5em;}
+    div.css-pod-item {display: block; margin-left: auto; margin-right: auto; text-align:center;}
+    div.css-pod-item img {display: block; margin-left: auto; margin-right: auto;}
+    div.css-pod-item div {display: block; margin-left: auto; margin-right: auto;}
+    img.css-main-image {display:block; margin-left:auto; margin-right:auto; max-width:98%;}
+    div.css-gallery {text-align: center;}
+    div.css-gallery img {display:inline;padding:0 0 0 0;margin: 0.5em 1em 0.5em 0.2em;border-radius:15px; height:200px; transition: transform 1s; max-width:100%;}
+    div.css-gallery img:hover {transform: scale(1.5);}
     h1 {text-align: center;}
   </style>
 HEREDOC_STYLE;
   }
 
   $html .= <<<HEREDOC_DIV
-  <div class="jwrr_show_images_main">
+  <div class="css-show-images-main">
     $big_image_html
     <hr>
 
@@ -146,7 +102,7 @@ HEREDOC_STYLE;
 
   </div>
 
-<!-- end jwrr_show_images -->
+<!-- end show_images -->
 
 HEREDOC_DIV;
 

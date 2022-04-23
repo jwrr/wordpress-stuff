@@ -163,9 +163,38 @@ function get_post_search_string($search_string='', $search_key = 'artsearch')
 }
 
 
-function search_and_show_images($path= "art/*/small/*jpg", $search_string="")
+function jwrr_display_images($images, $copyright='', $msg='')
 {
-  
+  $html = "$msg
+  <div class='css-gallery'>";
+
+  foreach($images as $image)
+  {
+    $v = preg_quote('^.*art', '/');
+    $i = preg_replace('/.*\/art\//',  '/art/', $image);
+    // $i = '/' . $i;
+    // $i = "/art/$artist_name/small/" . basename($image);
+    $b = str_replace(".jpg", "", $i);
+    $b = str_replace("/art/", "/", $b);
+    $b = str_replace("/small/", "/", $b);
+    $html .= "    <a href=\"/show$b\"><img src=\"$i\" class=\"small\" loading=\"lazy\"></a>\n";
+  }
+  $html .= "   <div style='clear:both'></div>\n";
+  $html .= $copyright;
+  $html .= "  </div>\n";
+  return $html;
+}
+
+
+function search_and_show_images($path='', $search_string="")
+{
+
+  if ($path == '') {
+    $doc_root = $_SERVER["DOCUMENT_ROOT"];
+    $path = "$doc_root/art/*/small/*.jpg";
+//    $path = "art/*/small/*jpg";
+  }
+
   $search_string = get_post_search_string();
   
   // print "search='$search_string'";
@@ -178,22 +207,40 @@ function search_and_show_images($path= "art/*/small/*jpg", $search_string="")
   
   shuffle($images);
   $images = array_slice($images, 0, 100);
+  $html = jwrr_display_images($images);
+  echo $html;
 
-  echo "<style> 
-   .small {max-width:98%;height:auto; max-height:200px;}
-   .small:hover {transform: scale(1.5);}
-  </style>
-  <div id=\"theme_inner\">";
-  foreach($images as $image)
-  {
-    $url = str_replace('.jpg', '', $image);
-    $url = str_replace('art/', '', $url);
-    $url = str_replace('/small/', '/', $url);
-    echo "<a href='/index.php/show/$url'><img src=\"/$image\" class=\"small\" loading=\"lazy\"></a>\n";
+//   echo "<style> 
+//    .small {max-width:98%;height:auto; max-height:200px;}
+//    .small:hover {transform: scale(1.5);}
+//   </style>
+//   <div id=\"theme_inner\">";
+//   foreach($images as $image)
+//   {
+//     $image = '/' . $image;
+//     $url = str_replace('.jpg', '', $image);
+//     $url = str_replace('/art/', '', $url);
+//     $url = str_replace('/small/', '/', $url);
+//     echo "<a href='/index.php/show/$url'><img src=\"$image\" class=\"small\" loading=\"lazy\"></a>\n";
+//   }
+//   echo '   <div style="clear:both"></div>';
+//   echo '   Please note that all copyright and reproduction rights remain with the artist.';
+//   echo '  </div>';
+}
+
+
+function jwrr_get_art_by_artist($artist_name, $copyright, $msg='', $min_count=0)
+{
+  if ($copyright == '') {
+    $copyright = 'Please note that all copyright and reproduction rights remain with the artist.';
   }
-  echo '   <div style="clear:both"></div>';
-  echo '   Please note that all copyright and reproduction rights remain with the artist.';
-  echo '  </div>';
+  $doc_root = $_SERVER["DOCUMENT_ROOT"];
+  $path = "$doc_root/art/$artist_name/small/*.jpg";
+  $images = glob($path);
+  if (count($images) <= $min_count) return '';
+  usort( $images, function( $a, $b ) { return filemtime($b) - filemtime($a); } );
+  $html = jwrr_display_images($images, $copyright, $msg);  
+  return $html;
 }
 
 
@@ -218,6 +265,18 @@ function jwrr_parse_img_path($img='')
 }
 
 
+function jwrr_get_newest_artwork($artist_name)
+{
+  $doc_root = $_SERVER["DOCUMENT_ROOT"];
+  $path = "$doc_root/art/$artist_name/small/*.jpg";
+  $images = glob($path);
+  if (count($images) == 0) return '';
+  usort( $images, function( $a, $b ) { return filemtime($b) - filemtime($a); } );
+  $newest_artwork = basename($images[0]);
+  return $newest_artwork;
+}
+
+
 function jwrr_count_images()
 {
   $artist_fullname_with_dash = jwrr_get_fullname('', '-');
@@ -225,5 +284,15 @@ function jwrr_count_images()
   $num_images = count(glob("$big_image_folder/*jpg"));
   return $num_images;
 }
+
+
+function jwrr_copyright($year, $fullname, $type="")
+{
+  $html = <<<HEREDOC
+  <div class="css-copyright">&copy 2022 $fullname. All copyright and reproduction rights remain with the artist.</div>
+HEREDOC;
+return $html;
+}
+
 
 

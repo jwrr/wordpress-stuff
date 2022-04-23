@@ -14,20 +14,20 @@ add_shortcode('jwrr_search_form', 'jwrr_search_form');
 function jwrr_search_form($atts = array(), $content = null, $tag = '')
 {
   $search_handler = "";
-  $enable_style = true;
+  $enable_style = false;
 
   $html = "
 
-<!-- jwrr-search-form -->";
+<!-- search-form -->";
   if ($enable_style) {
     $html .= <<<HEREDOC1
 
   <style>
-  input.jwrr_search_form_file {color:white;background-color:green; padding:0.5em; font-size:1.5em; border-radius:10px; width:75%;}
-  input.jwrr_search_form_submit  {color:white;background-color:green; padding:0.6em; font-size:1.5em; border-radius:10px;}
-  div.jwrr_search_form {margin-left:auto; margin-right: auto;text-align:center;}
-  div.jwrr_search_form h2 {margin:0; padding:0;}
-  div.jwrr-search-form-please-log-in {font-size: 2.0em; font-weight:bold;margin:1em;}
+  input.css-search-form-file {color:white;background-color:green; padding:0.5em; font-size:1.5em; border-radius:10px; width:75%;}
+  input.css-search-form-submit  {color:white;background-color:green; padding:0.6em; font-size:1.5em; border-radius:10px;}
+  div.css-search-form {margin-left:auto; margin-right: auto;text-align:center;}
+  div.css-search-form h2 {margin:0; padding:0;}
+  div.css-search-form-please-log-in {font-size: 2.0em; font-weight:bold;margin:1em;}
   </style>
 
 HEREDOC1;
@@ -37,17 +37,17 @@ HEREDOC1;
   $value = ($search_string == '') ? '' : "value=\"$search_string\"'";
 
   $html .= <<<HEREDOC2
-  <div class="jwrr_search_form">
+  <div class="css-search-form">
   <form action="$search_handler" method="post">
-    <input class="jwrr_search_form_file" type="search" placeholder="Search" $value name="artsearch" id="artsearch">
-    <input class="jwrr_search_form_submit" type="submit" value="Art Search" name="submit">
+    <input class="css-search-form-file" type="search" placeholder="Search" $value name="artsearch" id="artsearch">
+    <input class="css-search-form-submit" type="submit" value="Art Search" name="submit">
   </form>
   </div>
 
 HEREDOC2;
 
   $html .= "
-<!-- end jwrr-search-form -->
+<!-- end search-form -->
 
 ";
 

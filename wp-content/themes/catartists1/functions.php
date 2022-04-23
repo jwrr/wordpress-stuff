@@ -82,7 +82,7 @@ function get_copyright()
 function get_the_posts()
 {
  $indent = str_repeat(' ', 2);
- echo $indent . "<div id=\"theme_content\">\n";
+ echo $indent . "<div id=\"css-content\">\n";
  if ( have_posts() ) : while ( have_posts() ) : the_post();
   get_template_part( 'content', get_post_format() );
  endwhile; endif; 

@@ -15,7 +15,7 @@ function jwrr_upload_form($atts = array(), $content = null, $tag = '')
 {
   $MAX_IMAGES = 10;
   $upload_handler = "/upload-handler";
-  $enable_style = true;
+  $enable_style = false;
   $please_log_in_msg = "Please Log In";
   $select_file_msg = "Select file to upload";
   $num_images = jwrr_count_images();
@@ -27,28 +27,25 @@ function jwrr_upload_form($atts = array(), $content = null, $tag = '')
 
   $html = "
 
-<!-- jwrr-upload-form -->";
+<!-- upload-form -->";
   if ($enable_style) {
     $html .= <<<HEREDOC1
+<style>
+  input.css-upload-form_file {color:white;background-color:green; padding:0.5em; font-size:1.5em; border-radius:10px; width:75%;}
+  div.css-upload-form h2 {margin:0; padding:0;}
+  div.css-upload-form-please-log-in {font-size: 2.0em; font-weight:bold;margin:1em;}
 
-  <style>
-  input.jwrr_upload_form_file {color:white;background-color:green; padding:0.5em; font-size:1.5em; border-radius:10px; width:75%;}
-  div.jwrr_upload_form h2 {margin:0; padding:0;}
-  div.jwrr-upload-form-please-log-in {font-size: 2.0em; font-weight:bold;margin:1em;}
-
-    div.user-name-wrap {margin:1em;}
-    div.user-pass-wrap {margin:1em;}
-    div.jwrr-oneliner {padding: 1em 0 0 1em; font-size:1.5em;}
-    div.jwrr-oneliner label {display:block; margin-left:0.5em;}
-    div.jwrr-oneliner input[type=submit] {margin-left:0em; background-color:green; color:white;width:6em;}
-    div.jwrr-oneliner input {font-size:1.5em;border-color:gray;border-radius:10px;padding:0.3em;width:68%;}
-    div.jwrr-oneliner textarea {font-size:1.5em;border-color:gray;border-radius:10px;padding:0.3em;width:68%;}
-    div.jwrr-oneliner select {display:block; margin-left:0em; font-size:1.1em;border-color:gray;border-radius:10px;padding:0.3em;}
-    div.jwrr-checkboxes {display:block; margin-left:1.5em; font-size:1.5em;border-color:gray;border-radius:10px;padding:0.3em;}
-    div.jwrr-checkbox {display:inline; padding-right:3em;}
-    div.jwrr-checkbox input {width:2em; height: 2em;}
-    .forgetmenot {margin:1em;}
-  </style>
+  div.css-oneliner {padding: 1em 0 0 1em; font-size:1.5em;}
+  div.css-oneliner label {display:block; margin-left:0.5em;}
+  div.css-oneliner input[type=submit] {margin-left:0em; background-color:green; color:white;width:6em;}
+  div.css-oneliner input {font-size:1.5em;border-color:gray;border-radius:10px;padding:0.3em;width:68%;}
+  div.css-oneliner textarea {font-size:1.5em;border-color:gray;border-radius:10px;padding:0.3em;width:68%;}
+  div.css-oneliner select {display:block; margin-left:0em; font-size:1.1em;border-color:gray;border-radius:10px;padding:0.3em;}
+  div.css-checkboxes {display:block; margin-left:1.5em; font-size:1.5em;border-color:gray;border-radius:10px;padding:0.3em;}
+  div.css-checkbox {display:inline; padding-right:3em;}
+  div.css-checkbox input {width:2em; height: 2em;}
+  .forgetmenot {margin:1em;}
+</style>
 
 HEREDOC1;
   }
@@ -56,14 +53,14 @@ HEREDOC1;
   $user = _wp_get_current_user();
   $is_logged_in = $user->exists();
   if (!$is_logged_in) {
-    $html .= "<div class=\"jwrr-upload-form-please-log-in\">$please_log_in_msg</div>";
+    $html .= "<div class=\"css-upload-form-please-log-in\">$please_log_in_msg</div>";
   } else {
     $html .= <<<HEREDOC2
-  <div class="jwrr_upload_form">
+  <div class="css-upload-form">
   <form action="$upload_handler" method="post" enctype="multipart/form-data">
-      <div class=jwrr-oneliner>
+      <div class=css-oneliner>
         <label for "upload_filename">$select_file_msg</label>
-        <input class="jwrr_upload_form_file" type="file" name="upload_filename" id="upload_filename">
+        <input class="css-upload-form_file" type="file" name="upload_filename" id="upload_filename">
         <input class="jwrr-submit" type="submit" value="Upload" name="submit">
       </div>
   </form>
@@ -73,9 +70,9 @@ HEREDOC2;
   }
 
 $save = <<<HEREDOC_SAVE
-      <div class=jwrr-oneliner>
+      <div class=css-oneliner>
         <label for="copyright">Choose a Copyright Notice:</label>
-        <select class="jwrr_upload_form_select" id="copyright" name="copyright">
+        <select class="css-upload-form_select" id="copyright" name="copyright">
           <option value="all" selected>All rights reserved</option>
           <option value="none">None</option>
           <option value="BY-NC-ND">BY-NC-ND Needs Attribution, non-commercial and no derivatives</option>
@@ -84,30 +81,30 @@ $save = <<<HEREDOC_SAVE
         </select><br>
       </div>
 
-      <div class=jwrr-checkboxes>
-        <div class="jwrr-checkbox">
+      <div class=css-checkboxes>
+        <div class="css-checkbox">
           <label>Add Watermark</label> <input type="checkbox" name="watermark" id="watermark" value="yes" checked="true">
         </div>
-        <div class="jwrr-checkbox">
+        <div class="css-checkbox">
           <label>Shred it like your cat would</label><input type="checkbox" name="shred" id="shred" value="yes" checked="true">
         </div>
       </div>
 
-      <div class=jwrr-oneliner>
+      <div class=css-oneliner>
       </div>
-      <div class=jwrr-oneliner>
+      <div class=css-oneliner>
         <label for="title">Title (Optional)</label>
-        <input class="jwrr_upload_form_title" type="text" name="title" id="title" cols="60" style="font-size:1.3em;"><br>
+        <input class="css-upload-form_title" type="text" name="title" id="title" cols="60" style="font-size:1.3em;"><br>
       </div>
 
-      <div class=jwrr-oneliner>
+      <div class=css-oneliner>
         <label for="description">Description (Optional))</label>
         <textarea name="description" id="description" cols="111" rows="10"></textarea><br>
       </div>
 HEREDOC_SAVE;
 
   $html .= "
-<!-- end jwrr-upload-form -->
+<!-- end upload-form -->
 
 ";
 
