@@ -15,7 +15,4 @@ function jwrr_sendfile($file='')
   exit();
 }
 
-// $file = '/art/rachel/big/cat-n-mouse.jpg';
-// jwrr_sendfile();
-
 

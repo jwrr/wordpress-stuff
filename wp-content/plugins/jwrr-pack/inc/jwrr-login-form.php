@@ -14,8 +14,8 @@ add_shortcode('jwrr_login_form', 'jwrr_login_form');
 function jwrr_login_form($atts = array(), $content = null, $tag = '')
 {
   $enable_style = false;
-  $login_page = "/catartist-login2.php";
-  $lost_page = "/catartist-login2.php?action=lostpassword";
+  $login_page = "/catartists-login2.php";
+  $lost_page = "/catartists-login2.php?action=lostpassword";
   $redirect_page = "/";
   $login_button_msg = "Sign In";
   $lost_password_msg = "Lost your password?";
@@ -40,8 +40,6 @@ HEREDOC1;
   }
 
 $whoops = empty($_REQUEST['whoops']) ? '' : '<h2 class="whoops">Whoooops... Try again</h2>'; 
-
-echo "abcde" . $REQUEST['log'] . "5555";
 
 $html .= <<<HEREDOC2
 $whoops

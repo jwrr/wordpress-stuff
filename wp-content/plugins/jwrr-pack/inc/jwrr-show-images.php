@@ -25,10 +25,11 @@ function jwrr_show_images($img='')
   $art_delete = $is_owner && str_contains($request_uri, '/delete');
   $art_rename = $is_owner && str_contains($request_uri, '/rename/');
 
-  $big_partial_path = "/art/$artist_fullname_with_dash/big";
-  $small_partial_path = "/art/$artist_fullname_with_dash/small";
-  $big_full_path = $_SERVER['DOCUMENT_ROOT'] . $big_partial_path;
-  $small_full_path = $_SERVER['DOCUMENT_ROOT'] . $small_partial_path;
+  $hidden_art_path = jwrr_hidden_art_path();
+  $big_partial_path = "$artist_fullname_with_dash/big";
+  $small_partial_path = "$artist_fullname_with_dash/small";
+  $big_full_path = "$hidden_art_path/$big_partial_path";
+  $small_full_path = "$hidden_art_path/$small_partial_path";
   $big_image_url = "$big_partial_path/$art_title.jpg";
   $small_image_url = "$small_partial_path/$art_title.jpg";
   $big_image_fullname = "$big_full_path/$art_title.jpg";
@@ -57,18 +58,12 @@ function jwrr_show_images($img='')
       touch($big_image_fullname);
       touch($small_image_fullname);
     }
-  } else {
-    $artists_latest_artwork = jwrr_get_newest_artwork($artist_fullname_with_dash);
-    $big_image_url = "/art/$artist_fullname_with_dash/big/$artists_latest_artwork";
-    $big_image_fullname = $_SERVER['DOCUMENT_ROOT'] . $big_image_url;
-    $big_image_exists = file_exists($big_image_fullname) && (str_ends_with($big_image_fullname, '.jpg'));
   }
   
   if ($big_image_exists) {
-    $big_image_url = str_replace('/art/', '', $big_image_url);
     $big_image_url = str_replace('/big/', '/', $big_image_url);
     $big_image_url = str_replace('.jpg', '', $big_image_url);
-    $img_html = '<img class="css-main-image" src="/?catart=' . $big_image_url . '">';
+    $img_html = '<img class="css-main-image" src="/catartists-images/' . $big_image_url . '.jpg">';
     $some_more = "more";
   }  
   
@@ -80,8 +75,11 @@ function jwrr_show_images($img='')
   $copyright = jwrr_copyright("2022", $artist_fullname_with_space);
   $buybar = jwrr_buybar($buy_platform, $buy_platform_icon, $buy_url);
 
-  $big_image_html = ($art_delete) ? '' : "$buybar $img_html $copyright";
-  $big_image_html = ($art_rename) ? '' : "$buybar $img_html $copyright";
+  if ($art_delete || $art_rename || !$big_image_exists) {
+    $big_image_html = '';
+  } else {
+    $big_image_html = "$buybar $img_html $copyright";
+  }
 
   $more_art_by_artist_html = jwrr_get_art_by_artist($artist_fullname_with_dash, $copyright, "<h2>Here is $some_more of my art</h2>", 0);
 

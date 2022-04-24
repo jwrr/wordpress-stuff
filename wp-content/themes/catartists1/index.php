@@ -8,17 +8,6 @@ require_once "config.php";
     exit();
   }
 
-$log_files = glob('art/log*.txt');
-$log_name = empty($log_files) ? 'art/log_' . bin2hex(random_bytes(10)) . '.txt' : $log_files[0];
-$date = date('Y-m-d H:i:s') . ', ';
-$ip = $_SERVER['REMOTE_ADDR'] . ', ';
-$artsearch = empty($_POST['artsearch']) ? '' : $_POST['artsearch'];
-$url = $_SERVER['REQUEST_URI'].$artsearch;
-file_put_contents($log_name, $date.$ip.$url.PHP_EOL , FILE_APPEND | LOCK_EX);
-
-// END JWRR
-
-
 get_header();
 
 

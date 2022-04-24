@@ -28,9 +28,25 @@ function jwrr_clean($string)
 }
 
 
-function jwrr_clean_filename_lower($string)
+function jwrr_clean_filename_lower($filename)
 {
-  return strtolower(preg_replace('/[^\w.-]/u', '', $string));
+  $pieces = explode('.', $filename);
+  $num_pieces = count($pieces);
+  $filetype = '';
+  if ($num_pieces > 1) {
+    $filetype = $pieces[$num_pieces-1];
+    $filetype = preg_replace('/[^A-Za-z]/', '', $filetype);
+    array_pop($pieces);
+  }
+  $filename = implode('', $pieces);
+  $filename = preg_replace('/[^A-Za-z0-9]/', '-', $filename);
+  $filename = preg_replace('/[-]+/', '-', $filename);
+  $filename = trim($filename, '-');
+  if ($filetype != '') {
+    $filename = "$filename.$filetype";
+  }
+  $filename = strtolower($filename);
+  return $filename;
 }
 
 function jwrr_clean_title_lower($string)
@@ -177,16 +193,16 @@ function jwrr_display_images($images, $copyright='', $msg='')
   $html = "$msg
   <div class='css-gallery'>";
 
+  $artwork_full_path = jwrr_hidden_art_path($artwork_path);
   foreach($images as $image)
   {
-    $v = preg_quote('^.*art', '/');
-    $i = preg_replace('/.*\/art\//',  '/art/', $image);
-    // $i = '/' . $i;
-    // $i = "/art/$artist_name/small/" . basename($image);
+
+    $i = str_replace($artwork_full_path, '', $image);
+    $ii = '/catartists-images' . $i;
     $b = str_replace(".jpg", "", $i);
-    $b = str_replace("/art/", "/", $b);
+    $b = str_replace("/art-hidden/", "/", $b);
     $b = str_replace("/small/", "/", $b);
-    $html .= "    <a href=\"/show$b\"><img src=\"$i\" class=\"small\" loading=\"lazy\"></a>\n";
+    $html .= "    <a href=\"/show$b\"><img src=\"$ii\" class=\"small\" loading=\"lazy\"></a>\n";
   }
   $html .= "   <div style='clear:both'></div>\n";
   $html .= $copyright;
@@ -195,20 +211,22 @@ function jwrr_display_images($images, $copyright='', $msg='')
 }
 
 
-function search_and_show_images($path='', $search_string="")
+function jwrr_hidden_art_path($path='')
 {
-
   if ($path == '') {
     $doc_root = $_SERVER["DOCUMENT_ROOT"];
-    $path = "$doc_root/art/*/small/*.jpg";
-//    $path = "art/*/small/*jpg";
+    $path = "$doc_root/art-hidden";
   }
+  return $path;
+}
 
+
+function search_and_show_images($artwork_glob='', $search_string="")
+{
+  $artwork_glob = jwrr_hidden_art_path($artwork_glob) . '/*/small/*.jpg';
   $search_string = get_post_search_string();
   
-  // print "search='$search_string'";
-  
-  $images = glob($path);
+  $images = glob($artwork_glob);
   $search_words = explode(" ", $search_string);
   foreach ($search_words as $search_word) {
     $images = preg_grep("/^.*$search_word.*/i", $images);    
@@ -218,23 +236,6 @@ function search_and_show_images($path='', $search_string="")
   $images = array_slice($images, 0, 100);
   $html = jwrr_display_images($images);
   echo $html;
-
-//   echo "<style> 
-//    .small {max-width:98%;height:auto; max-height:200px;}
-//    .small:hover {transform: scale(1.5);}
-//   </style>
-//   <div id=\"theme_inner\">";
-//   foreach($images as $image)
-//   {
-//     $image = '/' . $image;
-//     $url = str_replace('.jpg', '', $image);
-//     $url = str_replace('/art/', '', $url);
-//     $url = str_replace('/small/', '/', $url);
-//     echo "<a href='/index.php/show/$url'><img src=\"$image\" class=\"small\" loading=\"lazy\"></a>\n";
-//   }
-//   echo '   <div style="clear:both"></div>';
-//   echo '   Please note that all copyright and reproduction rights remain with the artist.';
-//   echo '  </div>';
 }
 
 
@@ -243,9 +244,8 @@ function jwrr_get_art_by_artist($artist_name, $copyright, $msg='', $min_count=0)
   if ($copyright == '') {
     $copyright = 'Please note that all copyright and reproduction rights remain with the artist.';
   }
-  $doc_root = $_SERVER["DOCUMENT_ROOT"];
-  $path = "$doc_root/art/$artist_name/small/*.jpg";
-  $images = glob($path);
+  $artwork_glob = jwrr_hidden_art_path($artwork_glob) . "/$artist_name/small/*.jpg";
+  $images = glob($artwork_glob);
   if (count($images) <= $min_count) return '';
   usort( $images, function( $a, $b ) { return filemtime($b) - filemtime($a); } );
   $html = jwrr_display_images($images, $copyright, $msg);  
@@ -277,7 +277,8 @@ function jwrr_parse_img_path($img='')
 function jwrr_get_newest_artwork($artist_name)
 {
   $doc_root = $_SERVER["DOCUMENT_ROOT"];
-  $path = "$doc_root/art/$artist_name/small/*.jpg";
+  $hidden_art_path = jwrr_hidden_art_path();
+  $path = "$hidden_art_path/$artist_name/small/*.jpg";
   $images = glob($path);
   if (count($images) == 0) return '';
   usort( $images, function( $a, $b ) { return filemtime($b) - filemtime($a); } );
@@ -289,7 +290,8 @@ function jwrr_get_newest_artwork($artist_name)
 function jwrr_count_images()
 {
   $artist_fullname_with_dash = jwrr_get_fullname('', '-');
-  $big_image_folder = $_SERVER['DOCUMENT_ROOT'] . "/art/$artist_fullname_with_dash/big/";
+  $hidden_art_path = jwrr_hidden_art_path();
+  $big_image_folder = "$hidden_art_path/$artist_fullname_with_dash/big/";
   $num_images = count(glob("$big_image_folder/*jpg"));
   return $num_images;
 }

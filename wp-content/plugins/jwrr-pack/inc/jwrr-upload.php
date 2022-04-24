@@ -126,11 +126,10 @@ function jwrr_upload_handler()
 
 //  $username = jwrr_get_username();
   $username = jwrr_get_fullname('', '-');
-  $orig_dir = "art/$username/orig/";
-  $success = jwrr_mkdir($orig_dir);
 
-  $meta_dir = "art/$username/meta/";
-  $success = jwrr_mkdir($meta_dir);
+  $hidden_art_path = jwrr_hidden_art_path();
+  $orig_dir = "$hidden_art_path/$username/orig/";
+  $success = jwrr_mkdir($orig_dir);
 
   $upload_filename = htmlspecialchars($_FILES["upload_filename"]["name"]);
   $upload_filename = str_replace(' ', '-', $upload_filename);
@@ -149,7 +148,7 @@ function jwrr_upload_handler()
 
   // Check if file already exists
   if (file_exists($orig_full_filename)) {
-    $msg .=  "Sorry, the file already exists. ";
+    $msg .=  "Sorry, the file already exists.";
     $upload_good = 0;
   }
   $max_file_size = 10000000;
@@ -162,7 +161,7 @@ function jwrr_upload_handler()
 
   // Allow certain file formats
   if($upload_filetype != "jpg" ) {
-    $msg .=  "Sorry, only JPG files are allowed. ";
+    $msg .=  "Sorry, only JPG files are allowed (filetype is '$upload_filetype'). ";
     $upload_good = 0;
   }
 
@@ -174,8 +173,8 @@ echo $msg;
   // if everything is ok, try to upload file
   } else {
     if (move_uploaded_file($_FILES["upload_filename"]["tmp_name"], $orig_full_filename)) {
-       $small_dir = "art/$username/small";
-       $big_dir = "art/$username/big";
+       $small_dir = "$hidden_art_path/$username/small";
+       $big_dir = "$hidden_art_path/$username/big";
        jwrr_mkdir($small_dir);
        jwrr_mkdir($big_dir);
        // mogrify -resize x440 -quality 100 -path small *.jpg

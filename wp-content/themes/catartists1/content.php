@@ -8,7 +8,6 @@
 <?php } else { ?> 
    <div class="theme_the_post">
     <h1 class="theme_the_title"><?php the_title(); ?></h1>
-    <!-- <p class="theme_the_date"><?php the_date(); ?> by <a href="#"><?php the_author(); ?></a></p> -->
     <?php echo do_shortcode('[jwrr-post-tags]'); ?>
     <div class="theme_the_content"> <?php the_content(); ?>    </div>
     <div style="clear:both;"></div>
