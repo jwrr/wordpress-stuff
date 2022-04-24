@@ -20,33 +20,48 @@ function jwrr_show_images($img='')
   $art_title = $a['title'];
   $artist_fullname_with_space = $a['fullname'];
   $logged_in_artist_fullname_with_dash = jwrr_get_fullname('', '-');
-  $request_uri = ($_SERVER['REQUEST_URI']);
+  $request_uri = $_SERVER['REQUEST_URI'];
   $is_owner = ($logged_in_artist_fullname_with_dash == $artist_fullname_with_dash);
-  $art_delete = $is_owner ? $a['delete'] : '';
-  
-  $big_image_url = "/art/$artist_fullname_with_dash/big/$art_title.jpg";
-  $small_image_url = "/art/$artist_fullname_with_dash/small/$art_title.jpg";
+  $art_delete = $is_owner && str_contains($request_uri, '/delete');
+  $art_rename = $is_owner && str_contains($request_uri, '/rename/');
 
-  $big_image_path = $_SERVER['DOCUMENT_ROOT'] . $big_image_url;
-  $small_image_path = $_SERVER['DOCUMENT_ROOT'] . $small_image_url;
-  $big_image_exists = file_exists($big_image_path);
+  $big_partial_path = "/art/$artist_fullname_with_dash/big";
+  $small_partial_path = "/art/$artist_fullname_with_dash/small";
+  $big_full_path = $_SERVER['DOCUMENT_ROOT'] . $big_partial_path;
+  $small_full_path = $_SERVER['DOCUMENT_ROOT'] . $small_partial_path;
+  $big_image_url = "$big_partial_path/$art_title.jpg";
+  $small_image_url = "$small_partial_path/$art_title.jpg";
+  $big_image_fullname = "$big_full_path/$art_title.jpg";
+  $small_image_fullname = "$small_full_path/$art_title.jpg";
+
+  $big_image_exists = file_exists($big_image_fullname);
   $img_html = '';
   $some_more = "some";
   $html = '';
   if ($big_image_exists) {
-    if ($art_delete == 'delete') {
-      unlink($big_image_path);
-      unlink($small_image_path);
+    if ($art_rename) {
+      $newname = empty($_REQUEST['newname']) ? '' : $_REQUEST['newname'];
+      $newname = jwrr_clean_title_lower($newname);
+      if ($newname != '') {
+        $newname_big_image_fullname = "$big_full_path/$newname.jpg";
+        $newname_small_image_fullname = "$small_full_path/$newname.jpg";
+        rename($big_image_fullname, $newname_big_image_fullname);
+        rename($small_image_fullname, $newname_small_image_fullname);
+        $html .= "<h2>Page '$art_title' renamed to '$newname'</h2>";
+      }
+    }  else if ($art_delete) {
+      unlink($big_image_fullname);
+      unlink($small_image_fullname);
       $html .= "<h2>Page '$art_title' deleted</h2>";
     } else if ($is_owner) {
-      touch($big_image_path);
-      touch($small_image_path);
+      touch($big_image_fullname);
+      touch($small_image_fullname);
     }
   } else {
     $artists_latest_artwork = jwrr_get_newest_artwork($artist_fullname_with_dash);
     $big_image_url = "/art/$artist_fullname_with_dash/big/$artists_latest_artwork";
-    $big_image_path = $_SERVER['DOCUMENT_ROOT'] . $big_image_url;
-    $big_image_exists = file_exists($big_image_path) && (str_ends_with($big_image_path, '.jpg'));
+    $big_image_fullname = $_SERVER['DOCUMENT_ROOT'] . $big_image_url;
+    $big_image_exists = file_exists($big_image_fullname) && (str_ends_with($big_image_fullname, '.jpg'));
   }
   
   if ($big_image_exists) {
@@ -65,7 +80,8 @@ function jwrr_show_images($img='')
   $copyright = jwrr_copyright("2022", $artist_fullname_with_space);
   $buybar = jwrr_buybar($buy_platform, $buy_platform_icon, $buy_url);
 
-  $big_image_html = ($art_delete=='delete') ? '' : "$buybar $img_html $copyright";
+  $big_image_html = ($art_delete) ? '' : "$buybar $img_html $copyright";
+  $big_image_html = ($art_rename) ? '' : "$buybar $img_html $copyright";
 
   $more_art_by_artist_html = jwrr_get_art_by_artist($artist_fullname_with_dash, $copyright, "<h2>Here is $some_more of my art</h2>", 0);
 

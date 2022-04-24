@@ -33,6 +33,15 @@ function jwrr_clean_filename_lower($string)
   return strtolower(preg_replace('/[^\w.-]/u', '', $string));
 }
 
+function jwrr_clean_title_lower($string)
+{
+  $string = preg_replace('/[^A-Za-z0-9-]/', '-', $string);
+  $string = preg_replace('/[-]+/', '-', $string);
+  $string = trim($string, '-');
+  $string = strtolower($string);
+  return $string;
+}
+
 
 function jwrr_clean_lower($string)
 {

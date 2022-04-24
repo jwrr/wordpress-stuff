@@ -100,7 +100,7 @@ function jwrr_change_page_form($delete_button='')
     $username_readonly = 'readonly="readonly"';
     $username_required = 'Locked';
     $password_required = 'Leave blank if you do not want to change your password';
-    $submit_value      = 'Update Title';
+    $submit_value      = 'Rename Title';
 
     $userdata    = jwrr_get_userdata();
     if (empty($link))  $link   = $userdata->link;
@@ -116,12 +116,14 @@ function jwrr_change_page_form($delete_button='')
 
     $uri = $_SERVER['REQUEST_URI'];
     if (jwrr_count_images() == 0) return "<h2>Welcome to Cat Artists! Click the 'Upload' button to send us your cats!</h2>";
+    
+    $rename_uri = preg_replace('/rename\/?$/', '', $uri);
     $html .=  <<<HEREDOC
-    <form action="$uri" method="post">
+    <form action="${rename_uri}rename/" method="post">
 
     <div class="css-oneliner">
     <label for="title">Title</label>
-    <input type="text" name="title" value="$title">
+    <input type="text" name="newname" value="$title">
     </div>
 
 <!--
